@@ -5,11 +5,8 @@ import java.lang.reflect.Method;
 
 public class ReflectiveEncoder implements IMessageEncoder{
     public byte[] encode(Object o) throws Exception {
-        String buffer = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferName();
-        String message = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferMessage();
-        String pack = o.getClass().getPackage().getName();
-
-        Object builder = Class.forName(pack + "." + buffer + "$" + message).getMethod("newBuilder").invoke(null);
+        Class<?> buffer = o.getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
+        Object builder = buffer.getMethod("newBuilder").invoke(null);
 
         for (Field f : o.getClass().getDeclaredFields()) {
             ProtoBufferField annotation = f.getAnnotation(ProtoBufferField.class);
@@ -33,11 +30,8 @@ public class ReflectiveEncoder implements IMessageEncoder{
 
         Object o = Class.forName(message.getMessageType()).newInstance();
 
-        String buffer = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferName();
-        String messageType = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferMessage();
-        String pack = o.getClass().getPackage().getName();
-
-        Object personProto = Class.forName(pack + "." + buffer + "$" + messageType).getMethod("parseFrom", byte[].class).invoke(null, message.getPayload());
+        Class<?> buffer = o.getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
+        Object personProto = buffer.getMethod("parseFrom", byte[].class).invoke(null, message.getPayload());
 
 
         for (Field field : o.getClass().getDeclaredFields()) {

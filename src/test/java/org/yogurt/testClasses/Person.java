@@ -10,7 +10,7 @@ import org.yogurt.protobufftools.ProtoBufferField;
  * Time: 11:14 PM
  * To change this template use File | Settings | File Templates.
  */
-@ProtoBufferData(protoBufferName = "PersonProtos", protoBufferMessage = "Person")
+@ProtoBufferData(protoBuffer = PersonProtos.Person.class)
 public class Person {
     @ProtoBufferField(fieldName = "name")
     private String name;

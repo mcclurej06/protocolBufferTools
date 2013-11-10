@@ -12,6 +12,5 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ProtoBufferData {
-    String protoBufferName();
-    String protoBufferMessage();
+    Class<?> protoBuffer();
 }
