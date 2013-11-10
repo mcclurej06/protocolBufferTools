@@ -1,6 +1,5 @@
 package org.yogurt.protobufftools;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import org.junit.Before;
 import org.junit.Test;
 
