@@ -1,8 +1,4 @@
-package my.pack;
-
-import org.yogurt.protobufftools.IMessageEncoder;
-import org.yogurt.protobufftools.Message;
-import org.yogurt.protobufftools.MessageWrapper;
+package org.yogurt.protobufftools;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

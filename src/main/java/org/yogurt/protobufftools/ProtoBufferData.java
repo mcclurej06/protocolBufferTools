@@ -1,4 +1,4 @@
-package my.pack;
+package org.yogurt.protobufftools;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

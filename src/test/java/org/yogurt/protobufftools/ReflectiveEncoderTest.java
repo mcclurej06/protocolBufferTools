@@ -1,10 +1,12 @@
-package my.pack;
+package org.yogurt.protobufftools;
 
 import org.junit.Test;
+import org.yogurt.protobufftools.ReflectiveEncoder;
+import org.yogurt.testClasses.Person;
 
 import static org.junit.Assert.assertEquals;
 
-public class EncoderTest {
+public class ReflectiveEncoderTest {
 
     @Test
     public void testEncodeAndDecode() throws Exception {
@@ -13,7 +15,7 @@ public class EncoderTest {
         person.setTheEmail("fake@theEmail.com");
         person.setName("James");
 
-        Encoder encoder = new Encoder();
+        ReflectiveEncoder encoder = new ReflectiveEncoder();
 
         byte[] bytes = encoder.encode(person);
         Object actual = encoder.decode(bytes);

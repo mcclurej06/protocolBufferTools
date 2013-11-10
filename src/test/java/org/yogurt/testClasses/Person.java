@@ -1,4 +1,7 @@
-package my.pack;
+package org.yogurt.testClasses;
+
+import org.yogurt.protobufftools.ProtoBufferData;
+import org.yogurt.protobufftools.ProtoBufferField;
 
 /**
  * Created with IntelliJ IDEA.

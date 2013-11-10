@@ -1,4 +1,4 @@
-package my.pack;
+package org.yogurt.testClasses;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.yogurt.protobufftools.IMessageEncoder;
