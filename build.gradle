@@ -1,8 +1,14 @@
 apply plugin: 'idea'
 apply plugin: 'java'
 
+test.scanForTestClasses = false
+
 repositories {
     mavenCentral()
+}
+
+test{
+	exclude "org/yogurt/testClasses"
 }
 
 dependencies {
