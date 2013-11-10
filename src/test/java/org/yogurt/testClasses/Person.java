@@ -3,13 +3,6 @@ package org.yogurt.testClasses;
 import org.yogurt.protobufftools.ProtoBufferData;
 import org.yogurt.protobufftools.ProtoBufferField;
 
-/**
- * Created with IntelliJ IDEA.
- * User: james
- * Date: 11/8/13
- * Time: 11:14 PM
- * To change this template use File | Settings | File Templates.
- */
 @ProtoBufferData(protoBuffer = PersonProtos.Person.class)
 public class Person {
     @ProtoBufferField(fieldName = "name")
