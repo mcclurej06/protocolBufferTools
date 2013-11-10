@@ -2,15 +2,8 @@ package my.pack;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Created with IntelliJ IDEA.
- * User: james
- * Date: 11/8/13
- * Time: 10:58 PM
- * To change this template use File | Settings | File Templates.
- */
 public class EncoderTest {
 
     @Test

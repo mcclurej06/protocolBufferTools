@@ -1,16 +1,14 @@
 package my.pack;
 
-import com.google.protobuf.*;
-import jdk.nashorn.internal.objects.NativeArray;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.UnknownFieldSet;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Map;
 
 import static com.google.protobuf.Descriptors.FieldDescriptor;
 
@@ -24,9 +22,8 @@ public class Encoder {
     private byte[] normalEncodeMethod(Object o) throws Descriptors.DescriptorValidationException {
         PersonProtos.Person.Builder builder = PersonProtos.Person.newBuilder();
 
-        builder.setName(((Person)o).getName());
+        builder.setName(((Person) o).getName());
         builder.setEmail(((Person) o).getTheEmail());
-
 
 
         UnknownFieldSet.Builder unknownFieldSetBuilder = UnknownFieldSet.newBuilder();
@@ -34,9 +31,9 @@ public class Encoder {
         fieldBuilder.addLengthDelimited(ByteString.copyFromUtf8("something"));
         Map<FieldDescriptor, Object> fields = builder.getAllFields();
         int newIndex = 1;
-        for (FieldDescriptor f : fields.keySet()){
-            if (f.getIndex() >= newIndex){
-                newIndex = f.getIndex() +2;
+        for (FieldDescriptor f : fields.keySet()) {
+            if (f.getIndex() >= newIndex) {
+                newIndex = f.getIndex() + 2;
             }
         }
 
@@ -46,7 +43,7 @@ public class Encoder {
         return wrapMessage(o.getClass().getCanonicalName(), builder.build().toByteArray());
     }
 
-    private byte[] wrapMessage(String clazz, byte[] payload){
+    private byte[] wrapMessage(String clazz, byte[] payload) {
         MessageWrapperProtos.MessageWrapper.Builder builder = MessageWrapperProtos.MessageWrapper.newBuilder();
 
         ByteString bytes = ByteString.copyFrom(payload);
@@ -62,8 +59,8 @@ public class Encoder {
         return new Message(messageWrapper.getPackagedClass(), messageWrapper.getPayload().toByteArray());
     }
 
-    private class Message{
-        Message(String clazz, byte[] payload){
+    private class Message {
+        Message(String clazz, byte[] payload) {
             this.clazz = clazz;
             this.payload = payload;
         }
@@ -73,14 +70,14 @@ public class Encoder {
     }
 
     private byte[] reflectionEncodeMethod(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-        String buffer = ((ProtoBufferData) o.getClass().getAnnotation(ProtoBufferData.class)).protoBufferName();
-        String message = ((ProtoBufferData) o.getClass().getAnnotation(ProtoBufferData.class)).protoBufferMessage();
+        String buffer = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferName();
+        String message = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferMessage();
         String pack = o.getClass().getPackage().getName();
 
         Object builder = Class.forName(pack + "." + buffer + "$" + message).getMethod("newBuilder").invoke(null);
 
         for (Field f : o.getClass().getDeclaredFields()) {
-            ProtoBufferField annotation = (ProtoBufferField) f.getAnnotation(ProtoBufferField.class);
+            ProtoBufferField annotation = f.getAnnotation(ProtoBufferField.class);
             if (annotation == null) {
                 continue;
             }
@@ -113,13 +110,14 @@ public class Encoder {
 
         return person;
     }
+
     private Object reflectionDecodeMethod(byte[] bytes) throws InvalidProtocolBufferException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Message message = unwrapMessage(bytes);
 
         Object o = Class.forName(message.clazz).newInstance();
 
-        String buffer = ((ProtoBufferData) o.getClass().getAnnotation(ProtoBufferData.class)).protoBufferName();
-        String messageType = ((ProtoBufferData) o.getClass().getAnnotation(ProtoBufferData.class)).protoBufferMessage();
+        String buffer = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferName();
+        String messageType = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferMessage();
         String pack = o.getClass().getPackage().getName();
 
         Object personProto = Class.forName(pack + "." + buffer + "$" + messageType).getMethod("parseFrom", byte[].class).invoke(null, message.payload);
@@ -127,7 +125,7 @@ public class Encoder {
 
         Field[] declaredFields = o.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
-            ProtoBufferField annotation = (ProtoBufferField) field.getAnnotation(ProtoBufferField.class);
+            ProtoBufferField annotation = field.getAnnotation(ProtoBufferField.class);
             if (annotation == null) {
                 continue;
             }
