@@ -1,0 +1,6 @@
+option java_outer_classname = "my.pack.MessageWrapperProtos";
+
+message MessageWrapper {
+  required string packagedClass = 1;
+  required bytes payload = 2;
+}
