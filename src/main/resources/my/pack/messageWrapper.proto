@@ -1,6 +1,6 @@
-option java_outer_classname = "my.pack.MessageWrapperProtos";
+option java_outer_classname = "org.yogurt.protobufftools.MessageWrapperProtos";
 
 message MessageWrapper {
-  required string packagedClass = 1;
+  required string messageType = 1;
   required bytes payload = 2;
 }

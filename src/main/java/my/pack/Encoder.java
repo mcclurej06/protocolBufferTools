@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.UnknownFieldSet;
+import org.yogurt.protobufftools.MessageWrapper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +16,6 @@ import static com.google.protobuf.Descriptors.FieldDescriptor;
 public class Encoder {
 
     public byte[] encode(Object o) throws Exception {
-
         return reflectionEncodeMethod(o);
     }
 
@@ -44,29 +44,11 @@ public class Encoder {
     }
 
     private byte[] wrapMessage(String clazz, byte[] payload) {
-        MessageWrapperProtos.MessageWrapper.Builder builder = MessageWrapperProtos.MessageWrapper.newBuilder();
-
-        ByteString bytes = ByteString.copyFrom(payload);
-
-        builder.setPayload(bytes);
-        builder.setPackagedClass(clazz);
-
-        return builder.build().toByteArray();
+        return new MessageWrapper().wrap(clazz, payload);
     }
 
-    private Message unwrapMessage(byte[] message) throws InvalidProtocolBufferException {
-        MessageWrapperProtos.MessageWrapper messageWrapper = MessageWrapperProtos.MessageWrapper.parseFrom(message);
-        return new Message(messageWrapper.getPackagedClass(), messageWrapper.getPayload().toByteArray());
-    }
-
-    private class Message {
-        Message(String clazz, byte[] payload) {
-            this.clazz = clazz;
-            this.payload = payload;
-        }
-
-        public String clazz;
-        public byte[] payload;
+    private org.yogurt.protobufftools.Message unwrapMessage(byte[] message) throws InvalidProtocolBufferException {
+        return new MessageWrapper().unwrap(message);
     }
 
     private byte[] reflectionEncodeMethod(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
@@ -102,7 +84,7 @@ public class Encoder {
     }
 
     private Object normalDecodeMethod(byte[] bytes) throws InvalidProtocolBufferException {
-        PersonProtos.Person parsedPerson = PersonProtos.Person.parseFrom(unwrapMessage(bytes).payload);
+        PersonProtos.Person parsedPerson = PersonProtos.Person.parseFrom(unwrapMessage(bytes).getPayload());
 
         Person person = new Person();
         person.setName(parsedPerson.getName());
@@ -112,15 +94,15 @@ public class Encoder {
     }
 
     private Object reflectionDecodeMethod(byte[] bytes) throws InvalidProtocolBufferException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Message message = unwrapMessage(bytes);
+        org.yogurt.protobufftools.Message message = unwrapMessage(bytes);
 
-        Object o = Class.forName(message.clazz).newInstance();
+        Object o = Class.forName(message.getMessageType()).newInstance();
 
         String buffer = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferName();
         String messageType = o.getClass().getAnnotation(ProtoBufferData.class).protoBufferMessage();
         String pack = o.getClass().getPackage().getName();
 
-        Object personProto = Class.forName(pack + "." + buffer + "$" + messageType).getMethod("parseFrom", byte[].class).invoke(null, message.payload);
+        Object personProto = Class.forName(pack + "." + buffer + "$" + messageType).getMethod("parseFrom", byte[].class).invoke(null, message.getPayload());
 
 
         Field[] declaredFields = o.getClass().getDeclaredFields();
