@@ -10,9 +10,9 @@ package my.pack;
 @ProtoBufferData(protoBufferName = "PersonProtos", protoBufferMessage = "Person")
 public class Person {
     @ProtoBufferField(fieldName = "name")
-    String name;
+    private String name;
     @ProtoBufferField(fieldName = "email")
-    String theEmail;
+    private String theEmail;
 
     String dontSentMe;
 

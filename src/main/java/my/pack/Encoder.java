@@ -86,7 +86,8 @@ public class Encoder {
             }
 
             Method setter = builder.getClass().getDeclaredMethod("set" + capitalize(annotation.fieldName()), f.getType());
-            setter.invoke(builder, f.get(o));
+            Method getter = o.getClass().getMethod("get" + capitalize(f.getName()));
+            setter.invoke(builder, getter.invoke(o));
         }
 
         Object built = builder.getClass().getDeclaredMethod("build").invoke(builder);
@@ -133,7 +134,8 @@ public class Encoder {
 
             Method getter = personProto.getClass().getDeclaredMethod("get" + capitalize(annotation.fieldName()));
             Object data = getter.invoke(personProto);
-            field.set(o, data);
+            Method setter = o.getClass().getMethod("set" + capitalize(field.getName()), field.getType());
+            setter.invoke(o, data);
         }
 
 
