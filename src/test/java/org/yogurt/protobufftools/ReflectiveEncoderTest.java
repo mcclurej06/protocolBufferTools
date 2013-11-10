@@ -1,9 +1,9 @@
 package org.yogurt.protobufftools;
 
 import org.junit.Test;
-import org.yogurt.protobufftools.ReflectiveEncoder;
 import org.yogurt.testClasses.Person;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 
 public class ReflectiveEncoderTest {
@@ -14,6 +14,7 @@ public class ReflectiveEncoderTest {
 
         person.setTheEmail("fake@theEmail.com");
         person.setName("James");
+        person.setDontSentMe("dont send me!");
 
         ReflectiveEncoder encoder = new ReflectiveEncoder();
 
@@ -21,6 +22,8 @@ public class ReflectiveEncoderTest {
         Object actual = encoder.decode(bytes);
 
         assertEquals(person, actual);
+
+        assertNull(((Person) actual).getDontSentMe());
     }
 
 }
