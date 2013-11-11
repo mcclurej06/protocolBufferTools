@@ -15,12 +15,20 @@ public class ReflectiveEncoder implements IMessageEncoder {
         return new MessageWrapper().wrap(o.getClass().getCanonicalName(), payload);
     }
 
+    public Object decode(byte[] bytes) throws Exception {
+        Message message = new MessageWrapper().unwrap(bytes);
+        Object o = Class.forName(message.getMessageType()).newInstance();
+
+        Class<?> bufferClass = getProtoBufferClass(o);
+        Object buffer = bufferClass.getMethod("parseFrom", byte[].class).invoke(null, message.getPayload());
+        return extractFromBuffer(o, buffer);
+    }
+
     private Object populateBuilder(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Object builder = getProtoBufferClass(o).getMethod("newBuilder").invoke(null);
 
         for (Field field : getBufferFields(o)) {
             ProtoBufferField annotation = field.getAnnotation(ProtoBufferField.class);
-
             Method getter = getGetter(o, field.getName());
 
             if (fieldShouldBeRecursed(field)) {
@@ -38,19 +46,6 @@ public class ReflectiveEncoder implements IMessageEncoder {
         return builder;
     }
 
-    private boolean fieldShouldBeRecursed(Field field) {
-        return field.getType().getAnnotation(ProtoBufferData.class) != null;
-    }
-
-    public Object decode(byte[] bytes) throws Exception {
-        Message message = new MessageWrapper().unwrap(bytes);
-        Object o = Class.forName(message.getMessageType()).newInstance();
-
-        Class<?> bufferClass = getProtoBufferClass(o);
-        Object personProto = bufferClass.getMethod("parseFrom", byte[].class).invoke(null, message.getPayload());
-        return extractFromBuffer(o, personProto);
-    }
-
     private Object extractFromBuffer(Object o, Object buffer) throws InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         for (Field field : getBufferFields(o)) {
             Method getter = getGetter(buffer, field.getAnnotation(ProtoBufferField.class).fieldName());
@@ -66,10 +61,6 @@ public class ReflectiveEncoder implements IMessageEncoder {
         return o;
     }
 
-    private Class<?> getProtoBufferClass(Object o) {
-        return o.getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
-    }
-
     private Set<Field> getBufferFields(Object o) {
         Set<Field> fields = new HashSet<>();
         for (Field field : o.getClass().getDeclaredFields()) {
@@ -80,6 +71,14 @@ public class ReflectiveEncoder implements IMessageEncoder {
             }
         }
         return fields;
+    }
+
+    private boolean fieldShouldBeRecursed(Field field) {
+        return field.getType().getAnnotation(ProtoBufferData.class) != null;
+    }
+
+    private Class<?> getProtoBufferClass(Object o) {
+        return o.getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
     }
 
     private Method getSetter(Object o, String field, Class<?> type) throws NoSuchMethodException {
