@@ -39,13 +39,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
     }
 
     private boolean fieldShouldBeRecursed(Field field) {
-        Annotation[] annotations = field.getType().getAnnotations();
-        for (Annotation annotation : annotations) {
-            if (annotation.annotationType().equals(ProtoBufferData.class)) {
-                return true;
-            }
-        }
-        return false;
+        return field.getType().getAnnotation(ProtoBufferData.class) != null;
     }
 
     public Object decode(byte[] bytes) throws Exception {
