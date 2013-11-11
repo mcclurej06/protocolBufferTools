@@ -23,13 +23,13 @@ public class ReflectiveEncoder implements IMessageEncoder {
 
             Method getter = getGetter(o, field.getName());
 
-            if(fieldShouldBeRecursed(field)){
+            if (fieldShouldBeRecursed(field)) {
                 Class<?> type = field.getType().getAnnotation(ProtoBufferData.class).protoBuffer();
                 Object newBuilder = type.getMethod("newBuilder").invoke(null);
                 Method setter = getSetter(builder, annotation.fieldName(), newBuilder.getClass());
 
                 setter.invoke(builder, populateBuilder(getter.invoke(o)));
-            } else{
+            } else {
                 Method setter = getSetter(builder, annotation.fieldName(), field.getType());
                 setter.invoke(builder, getter.invoke(o));
             }
@@ -41,7 +41,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
     private boolean fieldShouldBeRecursed(Field field) {
         Annotation[] annotations = field.getType().getAnnotations();
         for (Annotation annotation : annotations) {
-            if(annotation.annotationType().equals(ProtoBufferData.class)){
+            if (annotation.annotationType().equals(ProtoBufferData.class)) {
                 return true;
             }
         }
@@ -62,7 +62,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
             Method getter = getGetter(buffer, field.getAnnotation(ProtoBufferField.class).fieldName());
             Method setter = getSetter(o, field.getName(), field.getType());
 
-            if(fieldShouldBeRecursed(field)){
+            if (fieldShouldBeRecursed(field)) {
                 setter.invoke(o, extractFromBuffer(field.getType().newInstance(), getter.invoke(buffer)));
             } else {
                 setter.invoke(o, getter.invoke(buffer));
@@ -80,7 +80,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
         Set<Field> fields = new HashSet<>();
         for (Field field : o.getClass().getDeclaredFields()) {
             for (Annotation declaredAnnotation : field.getDeclaredAnnotations()) {
-                if(declaredAnnotation.annotationType().equals(ProtoBufferField.class)){
+                if (declaredAnnotation.annotationType().equals(ProtoBufferField.class)) {
                     fields.add(field);
                 }
             }

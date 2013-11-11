@@ -7,10 +7,10 @@ import org.yogurt.protobufftools.MessageWrapper;
 public class Encoder implements IMessageEncoder {
 
     @Override
-    public byte[] encode(Object o)  {
+    public byte[] encode(Object o) {
         PersonProtos.Person.Builder personBuilder = PersonProtos.Person.newBuilder();
 
-        Person person = (Person)o;
+        Person person = (Person) o;
 
         personBuilder.setId(person.getId());
         personBuilder.setName(person.getName());

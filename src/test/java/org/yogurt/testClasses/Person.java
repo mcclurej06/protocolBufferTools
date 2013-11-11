@@ -19,6 +19,7 @@ public class Person {
     public Hair getHair() {
         return hair;
     }
+
     public void setHair(Hair hair) {
         this.hair = hair;
     }

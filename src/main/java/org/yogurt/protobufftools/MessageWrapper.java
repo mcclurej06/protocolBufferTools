@@ -3,7 +3,7 @@ package org.yogurt.protobufftools;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
-public class MessageWrapper implements IMessageWrapper{
+public class MessageWrapper implements IMessageWrapper {
 
     @Override
     public byte[] wrap(String messageType, byte[] payload) {
