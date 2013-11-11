@@ -8,12 +8,21 @@ public class Encoder implements IMessageEncoder {
 
     @Override
     public byte[] encode(Object o)  {
-        PersonProtos.Person.Builder builder = PersonProtos.Person.newBuilder();
+        PersonProtos.Person.Builder personBuilder = PersonProtos.Person.newBuilder();
 
-        builder.setName(((Person) o).getName());
-        builder.setEmail(((Person) o).getTheEmail());
+        Person person = (Person)o;
 
-        return new MessageWrapper().wrap(o.getClass().getCanonicalName(), builder.build().toByteArray());
+        personBuilder.setId(person.getId());
+        personBuilder.setName(person.getName());
+        personBuilder.setEmail(person.getTheEmail());
+
+        PersonProtos.Hair.Builder hairBuilder = PersonProtos.Hair.newBuilder();
+        hairBuilder.setColor(person.getHair().getColor());
+        hairBuilder.setLength(person.getHair().getLength());
+
+        personBuilder.setHair(hairBuilder);
+
+        return new MessageWrapper().wrap(o.getClass().getCanonicalName(), personBuilder.build().toByteArray());
     }
 
     @Override
@@ -21,8 +30,15 @@ public class Encoder implements IMessageEncoder {
         PersonProtos.Person parsedPerson = PersonProtos.Person.parseFrom(new MessageWrapper().unwrap(bytes).getPayload());
 
         Person person = new Person();
+        person.setId(parsedPerson.getId());
         person.setName(parsedPerson.getName());
         person.setTheEmail(parsedPerson.getEmail());
+
+        Hair hair = new Hair();
+        hair.setLength(parsedPerson.getHair().getLength());
+        hair.setColor(parsedPerson.getHair().getColor());
+
+        person.setHair(hair);
 
         return person;
     }

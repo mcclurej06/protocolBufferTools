@@ -1,6 +1,13 @@
 option java_outer_classname = "PersonProtos";
 
 message Person {
-  required string name = 1;
-  optional string theEmail = 2;
+    required int32 id = 1;
+    required string name = 2;
+    optional string email = 3;
+    optional Hair hair = 4;
+}
+
+message Hair {
+    required string color = 1;
+    required int32 length = 2;
 }

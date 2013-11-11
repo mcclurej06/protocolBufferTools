@@ -5,19 +5,30 @@ import org.yogurt.protobufftools.ProtoBufferField;
 
 @ProtoBufferData(protoBuffer = PersonProtos.Person.class)
 public class Person {
+    @ProtoBufferField(fieldName = "id")
+    private int id;
     @ProtoBufferField(fieldName = "name")
     private String name;
     @ProtoBufferField(fieldName = "email")
     private String theEmail;
+    @ProtoBufferField(fieldName = "hair")
+    private Hair hair;
 
-    String dontSentMe;
+    String dontSendMe;
 
-    public String getDontSentMe() {
-        return dontSentMe;
+    public Hair getHair() {
+        return hair;
+    }
+    public void setHair(Hair hair) {
+        this.hair = hair;
     }
 
-    public void setDontSentMe(String dontSentMe) {
-        this.dontSentMe = dontSentMe;
+    public String getDontSendMe() {
+        return dontSendMe;
+    }
+
+    public void setDontSendMe(String dontSendMe) {
+        this.dontSendMe = dontSendMe;
     }
 
     public String getTheEmail() {
@@ -36,6 +47,25 @@ public class Person {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", theEmail='" + theEmail + '\'' +
+                ", hair=" + hair +
+                ", dontSendMe='" + dontSendMe + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,6 +73,8 @@ public class Person {
 
         Person person = (Person) o;
 
+        if (id != person.id) return false;
+        if (hair != null ? !hair.equals(person.hair) : person.hair != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (theEmail != null ? !theEmail.equals(person.theEmail) : person.theEmail != null) return false;
 
@@ -51,17 +83,10 @@ public class Person {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (theEmail != null ? theEmail.hashCode() : 0);
+        result = 31 * result + (hair != null ? hair.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", theEmail='" + theEmail + '\'' +
-                ", dontSentMe='" + dontSentMe + '\'' +
-                '}';
     }
 }

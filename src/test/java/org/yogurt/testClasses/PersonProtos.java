@@ -9,35 +9,59 @@ public final class PersonProtos {
   public interface PersonOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string name = 1;
+    // required int32 id = 1;
     /**
-     * <code>required string name = 1;</code>
+     * <code>required int32 id = 1;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    int getId();
+
+    // required string name = 2;
+    /**
+     * <code>required string name = 2;</code>
      */
     boolean hasName();
     /**
-     * <code>required string name = 1;</code>
+     * <code>required string name = 2;</code>
      */
     java.lang.String getName();
     /**
-     * <code>required string name = 1;</code>
+     * <code>required string name = 2;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // optional string theEmail = 2;
+    // optional string email = 3;
     /**
-     * <code>optional string theEmail = 2;</code>
+     * <code>optional string email = 3;</code>
      */
     boolean hasEmail();
     /**
-     * <code>optional string theEmail = 2;</code>
+     * <code>optional string email = 3;</code>
      */
     java.lang.String getEmail();
     /**
-     * <code>optional string theEmail = 2;</code>
+     * <code>optional string email = 3;</code>
      */
     com.google.protobuf.ByteString
         getEmailBytes();
+
+    // optional .Hair hair = 4;
+    /**
+     * <code>optional .Hair hair = 4;</code>
+     */
+    boolean hasHair();
+    /**
+     * <code>optional .Hair hair = 4;</code>
+     */
+    PersonProtos.Hair getHair();
+    /**
+     * <code>optional .Hair hair = 4;</code>
+     */
+    PersonProtos.HairOrBuilder getHairOrBuilder();
   }
   /**
    * Protobuf type {@code Person}
@@ -90,14 +114,32 @@ public final class PersonProtos {
               }
               break;
             }
-            case 10: {
+            case 8: {
               bitField0_ |= 0x00000001;
-              name_ = input.readBytes();
+              id_ = input.readInt32();
               break;
             }
             case 18: {
               bitField0_ |= 0x00000002;
+              name_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
               email_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              PersonProtos.Hair.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = hair_.toBuilder();
+              }
+              hair_ = input.readMessage(PersonProtos.Hair.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(hair_);
+                hair_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -140,17 +182,33 @@ public final class PersonProtos {
     }
 
     private int bitField0_;
-    // required string name = 1;
-    public static final int NAME_FIELD_NUMBER = 1;
-    private java.lang.Object name_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
     /**
-     * <code>required string name = 1;</code>
+     * <code>required int32 id = 1;</code>
      */
-    public boolean hasName() {
+    public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string name = 1;</code>
+     * <code>required int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // required string name = 2;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 2;</code>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -167,7 +225,7 @@ public final class PersonProtos {
       }
     }
     /**
-     * <code>required string name = 1;</code>
+     * <code>required string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -183,17 +241,17 @@ public final class PersonProtos {
       }
     }
 
-    // optional string theEmail = 2;
-    public static final int EMAIL_FIELD_NUMBER = 2;
+    // optional string email = 3;
+    public static final int EMAIL_FIELD_NUMBER = 3;
     private java.lang.Object email_;
     /**
-     * <code>optional string theEmail = 2;</code>
+     * <code>optional string email = 3;</code>
      */
     public boolean hasEmail() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string theEmail = 2;</code>
+     * <code>optional string email = 3;</code>
      */
     public java.lang.String getEmail() {
       java.lang.Object ref = email_;
@@ -210,7 +268,7 @@ public final class PersonProtos {
       }
     }
     /**
-     * <code>optional string theEmail = 2;</code>
+     * <code>optional string email = 3;</code>
      */
     public com.google.protobuf.ByteString
         getEmailBytes() {
@@ -226,18 +284,52 @@ public final class PersonProtos {
       }
     }
 
+    // optional .Hair hair = 4;
+    public static final int HAIR_FIELD_NUMBER = 4;
+    private PersonProtos.Hair hair_;
+    /**
+     * <code>optional .Hair hair = 4;</code>
+     */
+    public boolean hasHair() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .Hair hair = 4;</code>
+     */
+    public PersonProtos.Hair getHair() {
+      return hair_;
+    }
+    /**
+     * <code>optional .Hair hair = 4;</code>
+     */
+    public PersonProtos.HairOrBuilder getHairOrBuilder() {
+      return hair_;
+    }
+
     private void initFields() {
+      id_ = 0;
       name_ = "";
       email_ = "";
+      hair_ = PersonProtos.Hair.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasName()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasHair()) {
+        if (!getHair().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -247,10 +339,16 @@ public final class PersonProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getNameBytes());
+        output.writeInt32(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getEmailBytes());
+        output.writeBytes(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getEmailBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, hair_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -263,11 +361,19 @@ public final class PersonProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getNameBytes());
+          .computeInt32Size(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getEmailBytes());
+          .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getEmailBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, hair_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -377,6 +483,7 @@ public final class PersonProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHairFieldBuilder();
         }
       }
       private static Builder create() {
@@ -385,10 +492,18 @@ public final class PersonProtos {
 
       public Builder clear() {
         super.clear();
-        name_ = "";
+        id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        email_ = "";
+        name_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        email_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (hairBuilder_ == null) {
+          hair_ = PersonProtos.Hair.getDefaultInstance();
+        } else {
+          hairBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -420,11 +535,23 @@ public final class PersonProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.name_ = name_;
+        result.id_ = id_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         result.email_ = email_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (hairBuilder_ == null) {
+          result.hair_ = hair_;
+        } else {
+          result.hair_ = hairBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -441,24 +568,40 @@ public final class PersonProtos {
 
       public Builder mergeFrom(PersonProtos.Person other) {
         if (other == PersonProtos.Person.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
         if (other.hasName()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           name_ = other.name_;
           onChanged();
         }
         if (other.hasEmail()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           email_ = other.email_;
           onChanged();
+        }
+        if (other.hasHair()) {
+          mergeHair(other.getHair());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
         if (!hasName()) {
           
           return false;
+        }
+        if (hasHair()) {
+          if (!getHair().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -482,16 +625,49 @@ public final class PersonProtos {
       }
       private int bitField0_;
 
-      // required string name = 1;
-      private java.lang.Object name_ = "";
+      // required int32 id = 1;
+      private int id_ ;
       /**
-       * <code>required string name = 1;</code>
+       * <code>required int32 id = 1;</code>
        */
-      public boolean hasName() {
+      public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string name = 2;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 2;</code>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -505,7 +681,7 @@ public final class PersonProtos {
         }
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required string name = 2;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -521,51 +697,51 @@ public final class PersonProtos {
         }
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required string name = 2;</code>
        */
       public Builder setName(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         name_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required string name = 2;</code>
        */
       public Builder clearName() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         name_ = getDefaultInstance().getName();
         onChanged();
         return this;
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required string name = 2;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         name_ = value;
         onChanged();
         return this;
       }
 
-      // optional string theEmail = 2;
+      // optional string email = 3;
       private java.lang.Object email_ = "";
       /**
-       * <code>optional string theEmail = 2;</code>
+       * <code>optional string email = 3;</code>
        */
       public boolean hasEmail() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string theEmail = 2;</code>
+       * <code>optional string email = 3;</code>
        */
       public java.lang.String getEmail() {
         java.lang.Object ref = email_;
@@ -579,7 +755,7 @@ public final class PersonProtos {
         }
       }
       /**
-       * <code>optional string theEmail = 2;</code>
+       * <code>optional string email = 3;</code>
        */
       public com.google.protobuf.ByteString
           getEmailBytes() {
@@ -595,39 +771,156 @@ public final class PersonProtos {
         }
       }
       /**
-       * <code>optional string theEmail = 2;</code>
+       * <code>optional string email = 3;</code>
        */
       public Builder setEmail(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         email_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string theEmail = 2;</code>
+       * <code>optional string email = 3;</code>
        */
       public Builder clearEmail() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         email_ = getDefaultInstance().getEmail();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string theEmail = 2;</code>
+       * <code>optional string email = 3;</code>
        */
       public Builder setEmailBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         email_ = value;
         onChanged();
         return this;
+      }
+
+      // optional .Hair hair = 4;
+      private PersonProtos.Hair hair_ = PersonProtos.Hair.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          PersonProtos.Hair, PersonProtos.Hair.Builder, PersonProtos.HairOrBuilder> hairBuilder_;
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public boolean hasHair() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public PersonProtos.Hair getHair() {
+        if (hairBuilder_ == null) {
+          return hair_;
+        } else {
+          return hairBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public Builder setHair(PersonProtos.Hair value) {
+        if (hairBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          hair_ = value;
+          onChanged();
+        } else {
+          hairBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public Builder setHair(
+          PersonProtos.Hair.Builder builderForValue) {
+        if (hairBuilder_ == null) {
+          hair_ = builderForValue.build();
+          onChanged();
+        } else {
+          hairBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public Builder mergeHair(PersonProtos.Hair value) {
+        if (hairBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              hair_ != PersonProtos.Hair.getDefaultInstance()) {
+            hair_ =
+              PersonProtos.Hair.newBuilder(hair_).mergeFrom(value).buildPartial();
+          } else {
+            hair_ = value;
+          }
+          onChanged();
+        } else {
+          hairBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public Builder clearHair() {
+        if (hairBuilder_ == null) {
+          hair_ = PersonProtos.Hair.getDefaultInstance();
+          onChanged();
+        } else {
+          hairBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public PersonProtos.Hair.Builder getHairBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getHairFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      public PersonProtos.HairOrBuilder getHairOrBuilder() {
+        if (hairBuilder_ != null) {
+          return hairBuilder_.getMessageOrBuilder();
+        } else {
+          return hair_;
+        }
+      }
+      /**
+       * <code>optional .Hair hair = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          PersonProtos.Hair, PersonProtos.Hair.Builder, PersonProtos.HairOrBuilder> 
+          getHairFieldBuilder() {
+        if (hairBuilder_ == null) {
+          hairBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              PersonProtos.Hair, PersonProtos.Hair.Builder, PersonProtos.HairOrBuilder>(
+                  hair_,
+                  getParentForChildren(),
+                  isClean());
+          hair_ = null;
+        }
+        return hairBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Person)
@@ -641,11 +934,584 @@ public final class PersonProtos {
     // @@protoc_insertion_point(class_scope:Person)
   }
 
+  public interface HairOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string color = 1;
+    /**
+     * <code>required string color = 1;</code>
+     */
+    boolean hasColor();
+    /**
+     * <code>required string color = 1;</code>
+     */
+    java.lang.String getColor();
+    /**
+     * <code>required string color = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getColorBytes();
+
+    // required int32 length = 2;
+    /**
+     * <code>required int32 length = 2;</code>
+     */
+    boolean hasLength();
+    /**
+     * <code>required int32 length = 2;</code>
+     */
+    int getLength();
+  }
+  /**
+   * Protobuf type {@code Hair}
+   */
+  public static final class Hair extends
+      com.google.protobuf.GeneratedMessage
+      implements HairOrBuilder {
+    // Use Hair.newBuilder() to construct.
+    private Hair(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Hair(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Hair defaultInstance;
+    public static Hair getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Hair getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Hair(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              color_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              length_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PersonProtos.internal_static_Hair_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PersonProtos.internal_static_Hair_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              PersonProtos.Hair.class, PersonProtos.Hair.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Hair> PARSER =
+        new com.google.protobuf.AbstractParser<Hair>() {
+      public Hair parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Hair(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Hair> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string color = 1;
+    public static final int COLOR_FIELD_NUMBER = 1;
+    private java.lang.Object color_;
+    /**
+     * <code>required string color = 1;</code>
+     */
+    public boolean hasColor() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string color = 1;</code>
+     */
+    public java.lang.String getColor() {
+      java.lang.Object ref = color_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          color_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string color = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getColorBytes() {
+      java.lang.Object ref = color_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        color_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 length = 2;
+    public static final int LENGTH_FIELD_NUMBER = 2;
+    private int length_;
+    /**
+     * <code>required int32 length = 2;</code>
+     */
+    public boolean hasLength() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 length = 2;</code>
+     */
+    public int getLength() {
+      return length_;
+    }
+
+    private void initFields() {
+      color_ = "";
+      length_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasColor()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLength()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getColorBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, length_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getColorBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, length_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static PersonProtos.Hair parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static PersonProtos.Hair parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static PersonProtos.Hair parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static PersonProtos.Hair parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static PersonProtos.Hair parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static PersonProtos.Hair parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static PersonProtos.Hair parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static PersonProtos.Hair parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static PersonProtos.Hair parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static PersonProtos.Hair parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(PersonProtos.Hair prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Hair}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements PersonProtos.HairOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PersonProtos.internal_static_Hair_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PersonProtos.internal_static_Hair_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                PersonProtos.Hair.class, PersonProtos.Hair.Builder.class);
+      }
+
+      // Construct using PersonProtos.Hair.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        color_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        length_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PersonProtos.internal_static_Hair_descriptor;
+      }
+
+      public PersonProtos.Hair getDefaultInstanceForType() {
+        return PersonProtos.Hair.getDefaultInstance();
+      }
+
+      public PersonProtos.Hair build() {
+        PersonProtos.Hair result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public PersonProtos.Hair buildPartial() {
+        PersonProtos.Hair result = new PersonProtos.Hair(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.color_ = color_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.length_ = length_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof PersonProtos.Hair) {
+          return mergeFrom((PersonProtos.Hair)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(PersonProtos.Hair other) {
+        if (other == PersonProtos.Hair.getDefaultInstance()) return this;
+        if (other.hasColor()) {
+          bitField0_ |= 0x00000001;
+          color_ = other.color_;
+          onChanged();
+        }
+        if (other.hasLength()) {
+          setLength(other.getLength());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasColor()) {
+          
+          return false;
+        }
+        if (!hasLength()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        PersonProtos.Hair parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (PersonProtos.Hair) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string color = 1;
+      private java.lang.Object color_ = "";
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public boolean hasColor() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public java.lang.String getColor() {
+        java.lang.Object ref = color_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          color_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getColorBytes() {
+        java.lang.Object ref = color_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          color_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public Builder setColor(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        color_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public Builder clearColor() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        color_ = getDefaultInstance().getColor();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public Builder setColorBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        color_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 length = 2;
+      private int length_ ;
+      /**
+       * <code>required int32 length = 2;</code>
+       */
+      public boolean hasLength() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 length = 2;</code>
+       */
+      public int getLength() {
+        return length_;
+      }
+      /**
+       * <code>required int32 length = 2;</code>
+       */
+      public Builder setLength(int value) {
+        bitField0_ |= 0x00000002;
+        length_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 length = 2;</code>
+       */
+      public Builder clearLength() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        length_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Hair)
+    }
+
+    static {
+      defaultInstance = new Hair(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:Hair)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_Person_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Person_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Hair_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Hair_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -655,8 +1521,10 @@ public final class PersonProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014person.proto\"%\n\006Person\022\014\n\004name\030\001 \002(\t\022\r" +
-      "\n\005email\030\002 \001(\tB\016B\014PersonProtos"
+      "\n\014person.proto\"F\n\006Person\022\n\n\002id\030\001 \002(\005\022\014\n\004" +
+      "name\030\002 \002(\t\022\r\n\005email\030\003 \001(\t\022\023\n\004hair\030\004 \001(\0132" +
+      "\005.Hair\"%\n\004Hair\022\r\n\005color\030\001 \002(\t\022\016\n\006length\030" +
+      "\002 \002(\005B\016B\014PersonProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -668,7 +1536,13 @@ public final class PersonProtos {
           internal_static_Person_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Person_descriptor,
-              new java.lang.String[] { "Name", "Email", });
+              new java.lang.String[] { "Id", "Name", "Email", "Hair", });
+          internal_static_Hair_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+          internal_static_Hair_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Hair_descriptor,
+              new java.lang.String[] { "Color", "Length", });
           return null;
         }
       };
