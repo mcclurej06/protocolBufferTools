@@ -4,3 +4,7 @@ out
 *.iws
 .gradle
 build
+.classpath
+.project
+.settings
+bin
