@@ -20,6 +20,8 @@ public class ReflectiveEncoderTest {
         person.setName("James");
         person.setDontSendMe("dont send me!");
 
+        person.addMoney(500);
+
         Hair hair = new Hair();
         hair.setColor("blonde");
         hair.setLength(5);

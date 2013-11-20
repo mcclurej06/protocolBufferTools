@@ -4,7 +4,8 @@ message Person {
     required int32 id = 1;
     required string name = 2;
     optional string email = 3;
-    optional Hair hair = 4;
+    optional int32 money = 4;
+    optional Hair hair = 5;
 }
 
 message Hair {

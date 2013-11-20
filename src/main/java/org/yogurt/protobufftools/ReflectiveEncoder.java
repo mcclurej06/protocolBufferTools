@@ -29,11 +29,11 @@ public class ReflectiveEncoder implements IMessageEncoder {
 
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferField.class)) {
             String fieldName = field.getAnnotation(ProtoBufferField.class).fieldName();
-            Object invoked = o.invoke("get"+ capitalize(field.getName()));
+            Object invoked = o.smartGet(field.getName());
             if (fieldShouldBeRecursed(field)) {
-                builder.invoke("set" + capitalize(fieldName), populateBuilder(new ReflectiveObject(invoked)));
+                builder.smartSet(fieldName, populateBuilder(new ReflectiveObject(invoked)));
             } else {
-                builder.invoke("set" + capitalize(fieldName), invoked);
+                builder.smartSet(fieldName, invoked);
             }
         }
 
@@ -44,11 +44,11 @@ public class ReflectiveEncoder implements IMessageEncoder {
 
         Set<Field> bufferFields = o.getFieldsAnnotatedWith(ProtoBufferField.class);
         for (Field field : bufferFields) {
-            Object fieldValue = buffer.invoke("get" + capitalize(field.getAnnotation(ProtoBufferField.class).fieldName()));
+            Object fieldValue = buffer.smartGet(field.getAnnotation(ProtoBufferField.class).fieldName());
 			if (fieldShouldBeRecursed(field)) {
-                o.invoke("set" + capitalize(field.getName()), extractFromBuffer(new ReflectiveObject(field.getType().newInstance()), new ReflectiveObject(fieldValue)));
+                o.smartSet(field.getName(), extractFromBuffer(new ReflectiveObject(field.getType().newInstance()), new ReflectiveObject(fieldValue)));
             } else {
-            	o.invoke("set" + capitalize(field.getName()), fieldValue);
+                o.smartSet(field.getName(), fieldValue);
             }
 
         }

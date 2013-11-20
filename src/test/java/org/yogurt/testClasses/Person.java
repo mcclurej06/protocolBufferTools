@@ -11,6 +11,8 @@ public class Person {
     private String name;
     @ProtoBufferField(fieldName = "email")
     private String theEmail;
+    @ProtoBufferField(fieldName = "money")
+    private int money;
     @ProtoBufferField(fieldName = "hair")
     private Hair hair;
 
@@ -56,12 +58,21 @@ public class Person {
         this.id = id;
     }
 
+    public int wealth() {
+        return money;
+    }
+
+    public void addMoney(int money) {
+        this.money += money;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", theEmail='" + theEmail + '\'' +
+                ", money=" + money +
                 ", hair=" + hair +
                 ", dontSendMe='" + dontSendMe + '\'' +
                 '}';
@@ -75,6 +86,7 @@ public class Person {
         Person person = (Person) o;
 
         if (id != person.id) return false;
+        if (money != person.money) return false;
         if (hair != null ? !hair.equals(person.hair) : person.hair != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (theEmail != null ? !theEmail.equals(person.theEmail) : person.theEmail != null) return false;
@@ -87,6 +99,7 @@ public class Person {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (theEmail != null ? theEmail.hashCode() : 0);
+        result = 31 * result + money;
         result = 31 * result + (hair != null ? hair.hashCode() : 0);
         return result;
     }

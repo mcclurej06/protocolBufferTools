@@ -1,9 +1,11 @@
 package org.yogurt.protobufftools;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,8 +21,24 @@ class ReflectiveObject {
         return o;
     }
 
-    public Object invoke(String methodName, Object... params) throws Exception{
+    public Object smartGet(String fieldName) throws Exception{
+        Method getter = MethodUtils.getMatchingAccessibleMethod(o.getClass(), "get" + capitalize(fieldName));
+        if (getter != null){
+            return getter.invoke(o);
+        }
+        return FieldUtils.readDeclaredField(o, fieldName, true);
+    }
 
+    public void smartSet(String fieldName, Object value) throws Exception{
+        Method setter = MethodUtils.getMatchingAccessibleMethod(o.getClass(), "set" + capitalize(fieldName), value.getClass());
+        if (setter != null){
+            setter.invoke(o, value);
+            return;
+        }
+        FieldUtils.writeDeclaredField(o, fieldName, value, true);
+    }
+
+    public Object invoke(String methodName, Object... params) throws Exception{
         if(params != null){
             Class<?>[] types = getTypes(params);
             return MethodUtils.getMatchingAccessibleMethod(o.getClass(), methodName, types).invoke(o, params);
