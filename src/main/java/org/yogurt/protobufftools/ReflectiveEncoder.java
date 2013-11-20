@@ -1,10 +1,7 @@
 package org.yogurt.protobufftools;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.HashSet;
 import java.util.Set;
-
 
 public class ReflectiveEncoder implements IMessageEncoder {
     public byte[] encode(Object o) throws Exception {
