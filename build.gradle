@@ -14,8 +14,8 @@ test {
 
 dependencies {
     compile 'com.google.protobuf:protobuf-java:2.+'
-	compile 'org.apache.commons:commons-lang3:3.+'
-            
+    compile 'org.apache.commons:commons-lang3:3.+'
+
 
     testCompile 'junit:junit:4.+'
 }

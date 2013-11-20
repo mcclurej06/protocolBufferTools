@@ -12,26 +12,27 @@ import java.util.Set;
 
 class ReflectiveObject {
     Object o;
-    ReflectiveObject(Object o){
+
+    ReflectiveObject(Object o) {
         this.o = o;
     }
 
-    public Object getObject(){
+    public Object getObject() {
         return o;
     }
 
-    public Object smartGet(String fieldName) throws Exception{
+    public Object smartGet(String fieldName) throws Exception {
         try {
             return MethodUtils.invokeMethod(o, "get" + capitalize(fieldName));
-        } catch (NoSuchMethodException e){
+        } catch (NoSuchMethodException e) {
             return FieldUtils.readDeclaredField(o, fieldName, true);
         }
     }
 
-    public void smartSet(String fieldName, Object value) throws Exception{
+    public void smartSet(String fieldName, Object value) throws Exception {
         try {
             MethodUtils.invokeMethod(o, "set" + capitalize(fieldName), value);
-        } catch (NoSuchMethodException e){
+        } catch (NoSuchMethodException e) {
             FieldUtils.writeDeclaredField(o, fieldName, value, true);
         }
     }
