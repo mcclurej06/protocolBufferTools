@@ -59,9 +59,4 @@ public class ReflectiveEncoder implements IMessageEncoder {
     private Class<?> getProtoBufferClass(Object o) {
         return o.getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
     }
-
-    private String capitalize(String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
-    }
-
 }
