@@ -1,6 +1,9 @@
 package org.yogurt.protobufftools;
 
+import org.apache.commons.lang3.reflect.MethodUtils;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 public class ReflectiveEncoder implements IMessageEncoder {
@@ -13,16 +16,14 @@ public class ReflectiveEncoder implements IMessageEncoder {
 
     public Object decode(byte[] bytes) throws Exception {
         Message message = new MessageWrapper().unwrap(bytes);
-        Object o = Class.forName(message.getMessageType()).newInstance();
+        ReflectiveObject o = new ReflectiveObject(Class.forName(message.getMessageType()).newInstance());
 
-        Class<?> bufferClass = getProtoBufferClass(o);
-
-        Object buffer = bufferClass.getMethod("parseFrom", byte[].class).invoke(null, message.getPayload());
-        return extractFromBuffer(new ReflectiveObject(o), new ReflectiveObject(buffer));
+        ReflectiveObject buffer = createBuffer(o, "parseFrom", message.getPayload());
+        return extractFromBuffer(o, buffer);
     }
 
     private Object populateBuilder(ReflectiveObject o) throws Exception {
-        ReflectiveObject builder = new ReflectiveObject(getProtoBufferClass(o.getObject()).getMethod("newBuilder").invoke(null));
+        ReflectiveObject builder = createBuffer(o,"newBuilder");
 
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferField.class)) {
             String fieldName = field.getAnnotation(ProtoBufferField.class).fieldName();
@@ -52,11 +53,15 @@ public class ReflectiveEncoder implements IMessageEncoder {
         return o.getObject();
     }
 
+    private ReflectiveObject createBuffer(ReflectiveObject o, String methodName, Object... params) throws Exception{
+        return new ReflectiveObject(MethodUtils.invokeStaticMethod(getProtoBufferClass(o), methodName, params));
+    }
+
     private boolean fieldShouldBeRecursed(Field field) {
         return field.getType().getAnnotation(ProtoBufferData.class) != null;
     }
 
-    private Class<?> getProtoBufferClass(Object o) {
-        return o.getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
+    private Class<?> getProtoBufferClass(ReflectiveObject o) {
+        return o.getObject().getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
     }
 }
