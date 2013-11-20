@@ -26,9 +26,9 @@ public class ReflectiveEncoder implements IMessageEncoder {
 
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferField.class)) {
             String fieldName = field.getAnnotation(ProtoBufferField.class).fieldName();
-            Object invoked = o.smartGet(field.getName());
+            ReflectiveObject invoked = o.smartGet(field.getName());
             if (fieldShouldBeRecursed(field)) {
-                builder.smartSet(fieldName, populateBuilder(new ReflectiveObject(invoked)));
+                builder.smartSet(fieldName, populateBuilder(invoked));
             } else {
                 builder.smartSet(fieldName, invoked);
             }
@@ -41,9 +41,9 @@ public class ReflectiveEncoder implements IMessageEncoder {
 
         Set<Field> bufferFields = o.getFieldsAnnotatedWith(ProtoBufferField.class);
         for (Field field : bufferFields) {
-            Object fieldValue = buffer.smartGet(field.getAnnotation(ProtoBufferField.class).fieldName());
+            ReflectiveObject fieldValue = buffer.smartGet(field.getAnnotation(ProtoBufferField.class).fieldName());
             if (fieldShouldBeRecursed(field)) {
-                o.smartSet(field.getName(), extractFromBuffer(new ReflectiveObject(field.getType().newInstance()), new ReflectiveObject(fieldValue)));
+                o.smartSet(field.getName(), extractFromBuffer(new ReflectiveObject(field.getType()), fieldValue));
             } else {
                 o.smartSet(field.getName(), fieldValue);
             }

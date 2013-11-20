@@ -1,6 +1,5 @@
 package org.yogurt.protobufftools;
 
-import org.apache.commons.lang3.AnnotationUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
@@ -13,6 +12,10 @@ import java.util.Set;
 class ReflectiveObject {
     Object o;
 
+    ReflectiveObject(Class<?> clazz) throws Exception {
+        this.o = clazz.newInstance();
+    }
+
     ReflectiveObject(Object o) {
         this.o = o;
     }
@@ -21,12 +24,16 @@ class ReflectiveObject {
         return o;
     }
 
-    public Object smartGet(String fieldName) throws Exception {
+    public ReflectiveObject smartGet(String fieldName) throws Exception {
         try {
-            return MethodUtils.invokeMethod(o, "get" + capitalize(fieldName));
+            return new ReflectiveObject(MethodUtils.invokeMethod(o, "get" + capitalize(fieldName)));
         } catch (NoSuchMethodException e) {
-            return FieldUtils.readDeclaredField(o, fieldName, true);
+            return new ReflectiveObject(FieldUtils.readDeclaredField(o, fieldName, true));
         }
+    }
+
+    public void smartSet(String fieldName, ReflectiveObject value) throws Exception {
+        smartSet(fieldName, value.getObject());
     }
 
     public void smartSet(String fieldName, Object value) throws Exception {
