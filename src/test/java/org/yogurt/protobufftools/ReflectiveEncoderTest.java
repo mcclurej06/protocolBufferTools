@@ -20,6 +20,11 @@ public class ReflectiveEncoderTest {
         person.setName("James");
         person.setDontSendMe("dont send me!");
 
+        byte[] someBytes = "someBytes".getBytes();
+        person.setSomeByteArray(someBytes);
+
+        person.addMoney(500);
+
         Hair hair = new Hair();
         hair.setColor("blonde");
         hair.setLength(5);

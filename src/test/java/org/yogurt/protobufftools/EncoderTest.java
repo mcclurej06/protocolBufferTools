@@ -19,6 +19,9 @@ public class EncoderTest {
         person.setTheEmail("fake@theEmail.com");
         person.setName("James");
 
+        byte[] someBytes = "someBytes".getBytes();
+        person.setSomeByteArray(someBytes);
+
         Hair hair = new Hair();
         hair.setColor("blonde");
         hair.setLength(5);

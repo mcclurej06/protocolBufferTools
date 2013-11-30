@@ -1,15 +1,14 @@
 package org.yogurt.protobufftools;
 
-import java.lang.annotation.Annotation;
+import com.google.protobuf.ByteString;
+import org.apache.commons.lang3.reflect.MethodUtils;
+
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Set;
 
 public class ReflectiveEncoder implements IMessageEncoder {
     public byte[] encode(Object o) throws Exception {
-        Object builder = populateBuilder(o);
+        Object builder = populateBuilder(new ReflectiveObject(o));
         Object built = builder.getClass().getDeclaredMethod("build").invoke(builder);
         byte[] payload = (byte[]) built.getClass().getMethod("toByteArray").invoke(built);
         return new MessageWrapper().wrap(o.getClass().getCanonicalName(), payload);
@@ -17,80 +16,59 @@ public class ReflectiveEncoder implements IMessageEncoder {
 
     public Object decode(byte[] bytes) throws Exception {
         Message message = new MessageWrapper().unwrap(bytes);
-        Object o = Class.forName(message.getMessageType()).newInstance();
+        ReflectiveObject o = new ReflectiveObject(Class.forName(message.getMessageType()).newInstance());
 
-        Class<?> bufferClass = getProtoBufferClass(o);
-        Object buffer = bufferClass.getMethod("parseFrom", byte[].class).invoke(null, message.getPayload());
+        ReflectiveObject buffer = createBuffer(o, "parseFrom", message.getPayload());
         return extractFromBuffer(o, buffer);
     }
 
-    private Object populateBuilder(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        Object builder = getProtoBufferClass(o).getMethod("newBuilder").invoke(null);
+    private Object populateBuilder(ReflectiveObject o) throws Exception {
+        ReflectiveObject builder = createBuffer(o, "newBuilder");
 
-        for (Field field : getBufferFields(o)) {
-            ProtoBufferField annotation = field.getAnnotation(ProtoBufferField.class);
-            Method getter = getGetter(o, field.getName());
-
+        for (Field field : o.getFieldsAnnotatedWith(ProtoBufferField.class)) {
+            String fieldName = field.getAnnotation(ProtoBufferField.class).fieldName();
+            ReflectiveObject invoked = o.smartGet(field.getName());
             if (fieldShouldBeRecursed(field)) {
-                Class<?> type = field.getType().getAnnotation(ProtoBufferData.class).protoBuffer();
-                Object newBuilder = type.getMethod("newBuilder").invoke(null);
-                Method setter = getSetter(builder, annotation.fieldName(), newBuilder.getClass());
-
-                setter.invoke(builder, populateBuilder(getter.invoke(o)));
+                builder.smartSet(fieldName, populateBuilder(invoked));
+            } else if (isByteArrayField(field)) {
+                builder.smartSet(fieldName, ByteString.copyFrom((byte[]) invoked.getObject()));
             } else {
-                Method setter = getSetter(builder, annotation.fieldName(), field.getType());
-                setter.invoke(builder, getter.invoke(o));
+                builder.smartSet(fieldName, invoked);
             }
         }
 
-        return builder;
+        return builder.getObject();
     }
 
-    private Object extractFromBuffer(Object o, Object buffer) throws InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-        for (Field field : getBufferFields(o)) {
-            Method getter = getGetter(buffer, field.getAnnotation(ProtoBufferField.class).fieldName());
-            Method setter = getSetter(o, field.getName(), field.getType());
-
+    private Object extractFromBuffer(ReflectiveObject o, ReflectiveObject buffer) throws Exception {
+        Set<Field> bufferFields = o.getFieldsAnnotatedWith(ProtoBufferField.class);
+        for (Field field : bufferFields) {
+            ReflectiveObject fieldValue = buffer.smartGet(field.getAnnotation(ProtoBufferField.class).fieldName());
             if (fieldShouldBeRecursed(field)) {
-                setter.invoke(o, extractFromBuffer(field.getType().newInstance(), getter.invoke(buffer)));
+                o.smartSet(field.getName(), extractFromBuffer(new ReflectiveObject(field.getType()), fieldValue));
+            } else if (isByteArrayField(field)) {
+                o.smartSet(field.getName(), ((ByteString) fieldValue.getObject()).toByteArray());
             } else {
-                setter.invoke(o, getter.invoke(buffer));
+                o.smartSet(field.getName(), fieldValue);
             }
 
         }
-        return o;
+        return o.getObject();
     }
 
-    private Set<Field> getBufferFields(Object o) {
-        Set<Field> fields = new HashSet<>();
-        for (Field field : o.getClass().getDeclaredFields()) {
-            for (Annotation declaredAnnotation : field.getDeclaredAnnotations()) {
-                if (declaredAnnotation.annotationType().equals(ProtoBufferField.class)) {
-                    fields.add(field);
-                }
-            }
-        }
-        return fields;
+    private ReflectiveObject createBuffer(ReflectiveObject o, String methodName, Object... params) throws Exception {
+        return new ReflectiveObject(MethodUtils.invokeStaticMethod(getProtoBufferClass(o), methodName, params));
+    }
+
+    private boolean isByteArrayField(Field field) {
+        return field.getType().isAssignableFrom(byte[].class);
     }
 
     private boolean fieldShouldBeRecursed(Field field) {
         return field.getType().getAnnotation(ProtoBufferData.class) != null;
     }
 
-    private Class<?> getProtoBufferClass(Object o) {
-        return o.getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
+    private Class<?> getProtoBufferClass(ReflectiveObject o) {
+        return o.getObject().getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
     }
-
-    private Method getSetter(Object o, String field, Class<?> type) throws NoSuchMethodException {
-        return o.getClass().getMethod("set" + capitalize(field), type);
-    }
-
-    private Method getGetter(Object o, String field) throws NoSuchMethodException {
-        return o.getClass().getMethod("get" + capitalize(field), (Class<?>[]) null);
-    }
-
-    private String capitalize(String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
-    }
-
 }
