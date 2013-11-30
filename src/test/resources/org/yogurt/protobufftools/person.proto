@@ -6,6 +6,7 @@ message Person {
     optional string email = 3;
     optional int32 money = 4;
     optional Hair hair = 5;
+    optional bytes someBytes = 6;
 }
 
 message Hair {

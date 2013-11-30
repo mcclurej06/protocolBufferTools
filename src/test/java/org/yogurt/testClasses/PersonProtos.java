@@ -88,6 +88,18 @@ public final class PersonProtos {
          * <code>optional .Hair hair = 5;</code>
          */
         PersonProtos.HairOrBuilder getHairOrBuilder();
+
+        // optional bytes someBytes = 6;
+
+        /**
+         * <code>optional bytes someBytes = 6;</code>
+         */
+        boolean hasSomeBytes();
+
+        /**
+         * <code>optional bytes someBytes = 6;</code>
+         */
+        com.google.protobuf.ByteString getSomeBytes();
     }
 
     /**
@@ -178,6 +190,11 @@ public final class PersonProtos {
                                 hair_ = subBuilder.buildPartial();
                             }
                             bitField0_ |= 0x00000010;
+                            break;
+                        }
+                        case 50: {
+                            bitField0_ |= 0x00000020;
+                            someBytes_ = input.readBytes();
                             break;
                         }
                     }
@@ -374,12 +391,31 @@ public final class PersonProtos {
             return hair_;
         }
 
+        // optional bytes someBytes = 6;
+        public static final int SOMEBYTES_FIELD_NUMBER = 6;
+        private com.google.protobuf.ByteString someBytes_;
+
+        /**
+         * <code>optional bytes someBytes = 6;</code>
+         */
+        public boolean hasSomeBytes() {
+            return ((bitField0_ & 0x00000020) == 0x00000020);
+        }
+
+        /**
+         * <code>optional bytes someBytes = 6;</code>
+         */
+        public com.google.protobuf.ByteString getSomeBytes() {
+            return someBytes_;
+        }
+
         private void initFields() {
             id_ = 0;
             name_ = "";
             email_ = "";
             money_ = 0;
             hair_ = PersonProtos.Hair.getDefaultInstance();
+            someBytes_ = com.google.protobuf.ByteString.EMPTY;
         }
 
         private byte memoizedIsInitialized = -1;
@@ -424,6 +460,9 @@ public final class PersonProtos {
             if (((bitField0_ & 0x00000010) == 0x00000010)) {
                 output.writeMessage(5, hair_);
             }
+            if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                output.writeBytes(6, someBytes_);
+            }
             getUnknownFields().writeTo(output);
         }
 
@@ -453,6 +492,10 @@ public final class PersonProtos {
             if (((bitField0_ & 0x00000010) == 0x00000010)) {
                 size += com.google.protobuf.CodedOutputStream
                         .computeMessageSize(5, hair_);
+            }
+            if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeBytesSize(6, someBytes_);
             }
             size += getUnknownFields().getSerializedSize();
             memoizedSerializedSize = size;
@@ -607,6 +650,8 @@ public final class PersonProtos {
                     hairBuilder_.clear();
                 }
                 bitField0_ = (bitField0_ & ~0x00000010);
+                someBytes_ = com.google.protobuf.ByteString.EMPTY;
+                bitField0_ = (bitField0_ & ~0x00000020);
                 return this;
             }
 
@@ -659,6 +704,10 @@ public final class PersonProtos {
                 } else {
                     result.hair_ = hairBuilder_.build();
                 }
+                if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+                    to_bitField0_ |= 0x00000020;
+                }
+                result.someBytes_ = someBytes_;
                 result.bitField0_ = to_bitField0_;
                 onBuilt();
                 return result;
@@ -693,6 +742,9 @@ public final class PersonProtos {
                 }
                 if (other.hasHair()) {
                     mergeHair(other.getHair());
+                }
+                if (other.hasSomeBytes()) {
+                    setSomeBytes(other.getSomeBytes());
                 }
                 this.mergeUnknownFields(other.getUnknownFields());
                 return this;
@@ -1094,6 +1146,46 @@ public final class PersonProtos {
                     hair_ = null;
                 }
                 return hairBuilder_;
+            }
+
+            // optional bytes someBytes = 6;
+            private com.google.protobuf.ByteString someBytes_ = com.google.protobuf.ByteString.EMPTY;
+
+            /**
+             * <code>optional bytes someBytes = 6;</code>
+             */
+            public boolean hasSomeBytes() {
+                return ((bitField0_ & 0x00000020) == 0x00000020);
+            }
+
+            /**
+             * <code>optional bytes someBytes = 6;</code>
+             */
+            public com.google.protobuf.ByteString getSomeBytes() {
+                return someBytes_;
+            }
+
+            /**
+             * <code>optional bytes someBytes = 6;</code>
+             */
+            public Builder setSomeBytes(com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                bitField0_ |= 0x00000020;
+                someBytes_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional bytes someBytes = 6;</code>
+             */
+            public Builder clearSomeBytes() {
+                bitField0_ = (bitField0_ & ~0x00000020);
+                someBytes_ = getDefaultInstance().getSomeBytes();
+                onChanged();
+                return this;
             }
 
             // @@protoc_insertion_point(builder_scope:Person)
@@ -1750,10 +1842,11 @@ public final class PersonProtos {
 
     static {
         java.lang.String[] descriptorData = {
-                "\n\014person.proto\"U\n\006Person\022\n\n\002id\030\001 \002(\005\022\014\n\004" +
+                "\n\014person.proto\"h\n\006Person\022\n\n\002id\030\001 \002(\005\022\014\n\004" +
                         "name\030\002 \002(\t\022\r\n\005email\030\003 \001(\t\022\r\n\005money\030\004 \001(\005" +
-                        "\022\023\n\004hair\030\005 \001(\0132\005.Hair\"%\n\004Hair\022\r\n\005color\030\001" +
-                        " \002(\t\022\016\n\006length\030\002 \002(\005B\016B\014PersonProtos"
+                        "\022\023\n\004hair\030\005 \001(\0132\005.Hair\022\021\n\tsomeBytes\030\006 \001(\014" +
+                        "\"%\n\004Hair\022\r\n\005color\030\001 \002(\t\022\016\n\006length\030\002 \002(\005B" +
+                        "\016B\014PersonProtos"
         };
         com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
                 new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1765,7 +1858,7 @@ public final class PersonProtos {
                         internal_static_Person_fieldAccessorTable = new
                                 com.google.protobuf.GeneratedMessage.FieldAccessorTable(
                                 internal_static_Person_descriptor,
-                                new java.lang.String[]{"Id", "Name", "Email", "Money", "Hair",});
+                                new java.lang.String[]{"Id", "Name", "Email", "Money", "Hair", "SomeBytes",});
                         internal_static_Hair_descriptor =
                                 getDescriptor().getMessageTypes().get(1);
                         internal_static_Hair_fieldAccessorTable = new

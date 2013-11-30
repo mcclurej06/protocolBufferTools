@@ -1,9 +1,9 @@
 package org.yogurt.protobufftools;
 
+import com.google.protobuf.ByteString;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 public class ReflectiveEncoder implements IMessageEncoder {
@@ -23,13 +23,15 @@ public class ReflectiveEncoder implements IMessageEncoder {
     }
 
     private Object populateBuilder(ReflectiveObject o) throws Exception {
-        ReflectiveObject builder = createBuffer(o,"newBuilder");
+        ReflectiveObject builder = createBuffer(o, "newBuilder");
 
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferField.class)) {
             String fieldName = field.getAnnotation(ProtoBufferField.class).fieldName();
             ReflectiveObject invoked = o.smartGet(field.getName());
             if (fieldShouldBeRecursed(field)) {
                 builder.smartSet(fieldName, populateBuilder(invoked));
+            } else if (isByteArrayField(field)) {
+                builder.smartSet(fieldName, ByteString.copyFrom((byte[]) invoked.getObject()));
             } else {
                 builder.smartSet(fieldName, invoked);
             }
@@ -39,12 +41,13 @@ public class ReflectiveEncoder implements IMessageEncoder {
     }
 
     private Object extractFromBuffer(ReflectiveObject o, ReflectiveObject buffer) throws Exception {
-
         Set<Field> bufferFields = o.getFieldsAnnotatedWith(ProtoBufferField.class);
         for (Field field : bufferFields) {
             ReflectiveObject fieldValue = buffer.smartGet(field.getAnnotation(ProtoBufferField.class).fieldName());
             if (fieldShouldBeRecursed(field)) {
                 o.smartSet(field.getName(), extractFromBuffer(new ReflectiveObject(field.getType()), fieldValue));
+            } else if (isByteArrayField(field)) {
+                o.smartSet(field.getName(), ((ByteString) fieldValue.getObject()).toByteArray());
             } else {
                 o.smartSet(field.getName(), fieldValue);
             }
@@ -53,8 +56,12 @@ public class ReflectiveEncoder implements IMessageEncoder {
         return o.getObject();
     }
 
-    private ReflectiveObject createBuffer(ReflectiveObject o, String methodName, Object... params) throws Exception{
+    private ReflectiveObject createBuffer(ReflectiveObject o, String methodName, Object... params) throws Exception {
         return new ReflectiveObject(MethodUtils.invokeStaticMethod(getProtoBufferClass(o), methodName, params));
+    }
+
+    private boolean isByteArrayField(Field field) {
+        return field.getType().isAssignableFrom(byte[].class);
     }
 
     private boolean fieldShouldBeRecursed(Field field) {

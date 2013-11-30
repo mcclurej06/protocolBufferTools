@@ -3,6 +3,8 @@ package org.yogurt.testClasses;
 import org.yogurt.protobufftools.ProtoBufferData;
 import org.yogurt.protobufftools.ProtoBufferField;
 
+import java.util.Arrays;
+
 @ProtoBufferData(protoBuffer = PersonProtos.Person.class)
 public class Person {
     @ProtoBufferField(fieldName = "id")
@@ -15,6 +17,8 @@ public class Person {
     private int money;
     @ProtoBufferField(fieldName = "hair")
     private Hair hair;
+    @ProtoBufferField(fieldName = "someBytes")
+    private byte[] someByteArray;
 
     String dontSendMe;
 
@@ -66,6 +70,14 @@ public class Person {
         this.money += money;
     }
 
+    public byte[] getSomeByteArray() {
+        return someByteArray;
+    }
+
+    public void setSomeByteArray(byte[] someByteArray) {
+        this.someByteArray = someByteArray;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -74,6 +86,7 @@ public class Person {
                 ", theEmail='" + theEmail + '\'' +
                 ", money=" + money +
                 ", hair=" + hair +
+                ", someByteArray=" + Arrays.toString(someByteArray) +
                 ", dontSendMe='" + dontSendMe + '\'' +
                 '}';
     }
@@ -89,6 +102,7 @@ public class Person {
         if (money != person.money) return false;
         if (hair != null ? !hair.equals(person.hair) : person.hair != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
+        if (!Arrays.equals(someByteArray, person.someByteArray)) return false;
         if (theEmail != null ? !theEmail.equals(person.theEmail) : person.theEmail != null) return false;
 
         return true;
@@ -101,6 +115,9 @@ public class Person {
         result = 31 * result + (theEmail != null ? theEmail.hashCode() : 0);
         result = 31 * result + money;
         result = 31 * result + (hair != null ? hair.hashCode() : 0);
+        result = 31 * result + (someByteArray != null ? Arrays.hashCode(someByteArray) : 0);
         return result;
     }
+
+
 }
