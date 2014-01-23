@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.yogurt.testClasses.Encoder;
 import org.yogurt.testClasses.Hair;
 import org.yogurt.testClasses.Person;
+import org.yogurt.testClasses.PersonHelper;
 
 import java.util.Random;
 
@@ -13,24 +14,12 @@ public class EncoderTest {
 
     @Test
     public void testEncodeAndDecode() throws Exception {
-        Person person = new Person();
-
-        person.setId(new Random().nextInt());
-        person.setTheEmail("fake@theEmail.com");
-        person.setName("James");
-
-        byte[] someBytes = "someBytes".getBytes();
-        person.setSomeByteArray(someBytes);
-
-        Hair hair = new Hair();
-        hair.setColor("blonde");
-        hair.setLength(5);
-        person.setHair(hair);
+        Person person = new PersonHelper().createPerson();
 
         Encoder encoder = new Encoder();
 
         byte[] bytes = encoder.encode(person);
-        System.out.println("encoded byte[] size: "+bytes.length);
+        System.out.println("standard encoded byte[] size: "+bytes.length);
         Object actual = encoder.decode(bytes);
 
         assertEquals(person, actual);

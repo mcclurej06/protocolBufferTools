@@ -59,4 +59,8 @@ class ReflectiveObject {
     private String capitalize(String line) {
         return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
+
+    public void call(String methodName, Object... objects) throws Exception {
+        MethodUtils.invokeMethod(o, methodName, objects);
+    }
 }

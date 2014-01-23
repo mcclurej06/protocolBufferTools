@@ -5,6 +5,9 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.yogurt.protobufftools.IMessageEncoder;
 import org.yogurt.protobufftools.MessageWrapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Encoder implements IMessageEncoder {
 
     @Override
@@ -24,6 +27,8 @@ public class Encoder implements IMessageEncoder {
 
         personBuilder.setHair(hairBuilder);
 
+        personBuilder.addAllLanguage(person.getLanguages());
+
         return new MessageWrapper().wrap(o.getClass().getCanonicalName(), personBuilder.build().toByteArray());
     }
 
@@ -42,6 +47,8 @@ public class Encoder implements IMessageEncoder {
         hair.setColor(parsedPerson.getHair().getColor());
 
         person.setHair(hair);
+
+        person.setLanguages(new ArrayList<>(parsedPerson.getLanguageList()));
 
         return person;
     }

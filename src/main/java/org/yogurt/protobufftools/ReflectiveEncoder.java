@@ -4,6 +4,8 @@ import com.google.protobuf.ByteString;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Set;
 
 public class ReflectiveEncoder implements IMessageEncoder {
@@ -19,7 +21,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
         ReflectiveObject o = new ReflectiveObject(Class.forName(message.getMessageType()).newInstance());
 
         ReflectiveObject buffer = createBuffer(o, "parseFrom", message.getPayload());
-        return extractFromBuffer(o, buffer);
+        return extractFromBuffer(o, buffer).getObject();
     }
 
     private Object populateBuilder(ReflectiveObject o) throws Exception {
@@ -37,10 +39,35 @@ public class ReflectiveEncoder implements IMessageEncoder {
             }
         }
 
+        for (Field field : o.getFieldsAnnotatedWith(ProtoBufferList.class)) {
+            String fieldName = field.getAnnotation(ProtoBufferList.class).fieldName();
+            ReflectiveObject invoked = o.smartGet(field.getName());
+            if (isStringList(field)) {
+                builder.call("addAll"+capitalize(fieldName), invoked.getObject());
+            }
+        }
+
         return builder.getObject();
     }
+    private String capitalize(String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+    }
+    private boolean isStringList(Field field) {
+        Type genericType = field.getGenericType();
+        if(ParameterizedType.class.isAssignableFrom(genericType.getClass())){
+            Type[] actualTypeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
+            for (Type type : actualTypeArguments) {
+                if (!String.class.equals(type)){
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
 
-    private Object extractFromBuffer(ReflectiveObject o, ReflectiveObject buffer) throws Exception {
+    private ReflectiveObject extractFromBuffer(ReflectiveObject o, ReflectiveObject buffer) throws Exception {
         Set<Field> bufferFields = o.getFieldsAnnotatedWith(ProtoBufferField.class);
         for (Field field : bufferFields) {
             ReflectiveObject fieldValue = buffer.smartGet(field.getAnnotation(ProtoBufferField.class).fieldName());
@@ -53,7 +80,13 @@ public class ReflectiveEncoder implements IMessageEncoder {
             }
 
         }
-        return o.getObject();
+
+        for (Field field : o.getFieldsAnnotatedWith(ProtoBufferList.class)) {
+            if (isStringList(field)) {
+                o.smartSet(field.getName(), buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName())+"List"));
+            }
+        }
+        return o;
     }
 
     private ReflectiveObject createBuffer(ReflectiveObject o, String methodName, Object... params) throws Exception {

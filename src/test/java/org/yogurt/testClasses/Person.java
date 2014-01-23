@@ -2,11 +2,14 @@ package org.yogurt.testClasses;
 
 import org.yogurt.protobufftools.ProtoBufferData;
 import org.yogurt.protobufftools.ProtoBufferField;
+import org.yogurt.protobufftools.ProtoBufferList;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 @ProtoBufferData(protoBuffer = PersonProtos.Person.class)
-public class Person {
+public class Person implements Serializable{
     @ProtoBufferField(fieldName = "id")
     private int id;
     @ProtoBufferField(fieldName = "name")
@@ -19,6 +22,8 @@ public class Person {
     private Hair hair;
     @ProtoBufferField(fieldName = "someBytes")
     private byte[] someByteArray;
+    @ProtoBufferList(fieldName = "language")
+    private List<String> languages;
 
     String dontSendMe;
 
@@ -78,6 +83,14 @@ public class Person {
         this.someByteArray = someByteArray;
     }
 
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -87,6 +100,7 @@ public class Person {
                 ", money=" + money +
                 ", hair=" + hair +
                 ", someByteArray=" + Arrays.toString(someByteArray) +
+                ", languages=" + languages +
                 ", dontSendMe='" + dontSendMe + '\'' +
                 '}';
     }
@@ -101,6 +115,7 @@ public class Person {
         if (id != person.id) return false;
         if (money != person.money) return false;
         if (hair != null ? !hair.equals(person.hair) : person.hair != null) return false;
+        if (languages != null ? !languages.equals(person.languages) : person.languages != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (!Arrays.equals(someByteArray, person.someByteArray)) return false;
         if (theEmail != null ? !theEmail.equals(person.theEmail) : person.theEmail != null) return false;
@@ -116,8 +131,7 @@ public class Person {
         result = 31 * result + money;
         result = 31 * result + (hair != null ? hair.hashCode() : 0);
         result = 31 * result + (someByteArray != null ? Arrays.hashCode(someByteArray) : 0);
+        result = 31 * result + (languages != null ? languages.hashCode() : 0);
         return result;
     }
-
-
 }

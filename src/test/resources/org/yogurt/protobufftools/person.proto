@@ -7,6 +7,7 @@ message Person {
     optional int32 money = 4;
     optional Hair hair = 5;
     optional bytes someBytes = 6;
+    repeated string language = 7;
 }
 
 message Hair {
