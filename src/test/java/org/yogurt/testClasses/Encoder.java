@@ -30,6 +30,14 @@ public class Encoder implements IMessageEncoder {
         personBuilder.addAllLanguage(person.getLanguages());
         personBuilder.addAllSomeNumber(person.getSomeNumbers());
 
+
+        for(Car car : person.getCars()){
+            PersonProtos.Car.Builder carBuilder = PersonProtos.Car.newBuilder();
+            carBuilder.setColor(car.getColor());
+            carBuilder.setManufacturer(car.getManufacturer());
+            personBuilder.addCar(carBuilder);
+        }
+
         return new MessageWrapper().wrap(o.getClass().getCanonicalName(), personBuilder.build().toByteArray());
     }
 
@@ -51,6 +59,18 @@ public class Encoder implements IMessageEncoder {
 
         person.setLanguages(parsedPerson.getLanguageList());
         person.setSomeNumbers(parsedPerson.getSomeNumberList());
+
+        List<PersonProtos.Car> carList = parsedPerson.getCarList();
+        ArrayList<Car> cars = new ArrayList<>();
+        for (PersonProtos.Car car : carList){
+            Car newCar = new Car();
+
+            newCar.setColor(car.getColor());
+            newCar.setManufacturer(car.getManufacturer());
+
+            cars.add(newCar);
+        }
+        person.setCars(cars);
 
         return person;
     }

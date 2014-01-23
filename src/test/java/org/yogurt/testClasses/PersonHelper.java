@@ -26,6 +26,13 @@ public class PersonHelper {
         person.setLanguages(Arrays.asList("english", "Spanish"));
         person.setSomeNumbers(Arrays.asList(1, 2));
 
+        Car car1 = new Car();
+        car1.setColor("red");
+        car1.setManufacturer("ford");
+        Car car2 = new Car();
+        car2.setColor("black");
+        car2.setManufacturer("bmw");
+        person.setCars(Arrays.asList(car1, car2));
 
         return person;
     }

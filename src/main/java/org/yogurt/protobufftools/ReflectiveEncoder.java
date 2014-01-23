@@ -6,6 +6,8 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class ReflectiveEncoder implements IMessageEncoder {
@@ -21,7 +23,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
         ReflectiveObject o = new ReflectiveObject(Class.forName(message.getMessageType()).newInstance());
 
         ReflectiveObject buffer = createBuffer(o, "parseFrom", message.getPayload());
-        return extractFromBuffer(o, buffer).getObject();
+        return extractFromBuffer(o, buffer);
     }
 
     private Object populateBuilder(ReflectiveObject o) throws Exception {
@@ -42,7 +44,13 @@ public class ReflectiveEncoder implements IMessageEncoder {
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferList.class)) {
             String fieldName = field.getAnnotation(ProtoBufferList.class).fieldName();
             ReflectiveObject invoked = o.smartGet(field.getName());
-            builder.call("addAll"+capitalize(fieldName), invoked.getObject());
+            if (classShouldBeRecursed((Class<?>)getListType(field))) {
+                for (Object o2 : (List) invoked.getObject()){
+                    builder.call("add"+capitalize(fieldName), populateBuilder(new ReflectiveObject(o2)));
+                }
+            } else {
+                builder.call("addAll"+capitalize(fieldName), invoked.getObject());
+            }
         }
 
         return builder.getObject();
@@ -65,7 +73,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
         return true;
     }
 
-    private ReflectiveObject extractFromBuffer(ReflectiveObject o, ReflectiveObject buffer) throws Exception {
+    private Object extractFromBuffer(ReflectiveObject o, ReflectiveObject buffer) throws Exception {
         Set<Field> bufferFields = o.getFieldsAnnotatedWith(ProtoBufferField.class);
         for (Field field : bufferFields) {
             ReflectiveObject fieldValue = buffer.smartGet(field.getAnnotation(ProtoBufferField.class).fieldName());
@@ -80,9 +88,24 @@ public class ReflectiveEncoder implements IMessageEncoder {
         }
 
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferList.class)) {
-            o.smartSet(field.getName(), buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName())+"List"));
+
+            if (classShouldBeRecursed((Class<?>)getListType(field))) {
+                List objects = (List) buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName()) + "List").getObject();
+                List newObjects = new ArrayList();
+                for (Object o1 : objects){
+                    newObjects.add(extractFromBuffer(new ReflectiveObject(Class.forName(((Class<?>) getListType(field)).getCanonicalName()).newInstance()), new ReflectiveObject(o1)));
+                }
+                o.smartSet(field.getName(), newObjects);
+            } else {
+                o.smartSet(field.getName(), buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName())+"List"));
+            }
+
         }
-        return o;
+        return o.getObject();
+    }
+
+    private Type getListType(Field field) {
+        return ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
     }
 
     private ReflectiveObject createBuffer(ReflectiveObject o, String methodName, Object... params) throws Exception {
@@ -94,7 +117,11 @@ public class ReflectiveEncoder implements IMessageEncoder {
     }
 
     private boolean fieldShouldBeRecursed(Field field) {
-        return field.getType().getAnnotation(ProtoBufferData.class) != null;
+        return classShouldBeRecursed(field.getType());
+    }
+
+    private boolean classShouldBeRecursed(Class<?> type) {
+        return type.getAnnotation(ProtoBufferData.class) != null;
     }
 
     private Class<?> getProtoBufferClass(ReflectiveObject o) {

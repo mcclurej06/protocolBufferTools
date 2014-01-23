@@ -26,6 +26,8 @@ public class Person implements Serializable{
     private List<String> languages;
     @ProtoBufferList(fieldName = "someNumber")
     private List<Integer> someNumbers;
+    @ProtoBufferList(fieldName = "car")
+    private List<Car> cars;
 
     String dontSendMe;
 
@@ -101,6 +103,14 @@ public class Person implements Serializable{
         this.someNumbers = someNumbers;
     }
 
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -112,6 +122,7 @@ public class Person implements Serializable{
                 ", someByteArray=" + Arrays.toString(someByteArray) +
                 ", languages=" + languages +
                 ", someNumbers=" + someNumbers +
+                ", cars=" + cars +
                 ", dontSendMe='" + dontSendMe + '\'' +
                 '}';
     }
@@ -125,6 +136,7 @@ public class Person implements Serializable{
 
         if (id != person.id) return false;
         if (money != person.money) return false;
+        if (cars != null ? !cars.equals(person.cars) : person.cars != null) return false;
         if (hair != null ? !hair.equals(person.hair) : person.hair != null) return false;
         if (languages != null ? !languages.equals(person.languages) : person.languages != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
@@ -145,6 +157,7 @@ public class Person implements Serializable{
         result = 31 * result + (someByteArray != null ? Arrays.hashCode(someByteArray) : 0);
         result = 31 * result + (languages != null ? languages.hashCode() : 0);
         result = 31 * result + (someNumbers != null ? someNumbers.hashCode() : 0);
+        result = 31 * result + (cars != null ? cars.hashCode() : 0);
         return result;
     }
 }

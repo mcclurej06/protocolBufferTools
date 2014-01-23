@@ -116,6 +116,31 @@ public final class PersonProtos {
      * <code>repeated int32 someNumber = 8;</code>
      */
     int getSomeNumber(int index);
+
+    // repeated .Car car = 9;
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    java.util.List<PersonProtos.Car> 
+        getCarList();
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    PersonProtos.Car getCar(int index);
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    int getCarCount();
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    java.util.List<? extends PersonProtos.CarOrBuilder> 
+        getCarOrBuilderList();
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    PersonProtos.CarOrBuilder getCarOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Person}
@@ -235,6 +260,14 @@ public final class PersonProtos {
               input.popLimit(limit);
               break;
             }
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                car_ = new java.util.ArrayList<PersonProtos.Car>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              car_.add(input.readMessage(PersonProtos.Car.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -248,6 +281,9 @@ public final class PersonProtos {
         }
         if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           someNumber_ = java.util.Collections.unmodifiableList(someNumber_);
+        }
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+          car_ = java.util.Collections.unmodifiableList(car_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -490,6 +526,42 @@ public final class PersonProtos {
       return someNumber_.get(index);
     }
 
+    // repeated .Car car = 9;
+    public static final int CAR_FIELD_NUMBER = 9;
+    private java.util.List<PersonProtos.Car> car_;
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    public java.util.List<PersonProtos.Car> getCarList() {
+      return car_;
+    }
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    public java.util.List<? extends PersonProtos.CarOrBuilder> 
+        getCarOrBuilderList() {
+      return car_;
+    }
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    public int getCarCount() {
+      return car_.size();
+    }
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    public PersonProtos.Car getCar(int index) {
+      return car_.get(index);
+    }
+    /**
+     * <code>repeated .Car car = 9;</code>
+     */
+    public PersonProtos.CarOrBuilder getCarOrBuilder(
+        int index) {
+      return car_.get(index);
+    }
+
     private void initFields() {
       id_ = 0;
       name_ = "";
@@ -499,6 +571,7 @@ public final class PersonProtos {
       someBytes_ = com.google.protobuf.ByteString.EMPTY;
       language_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       someNumber_ = java.util.Collections.emptyList();
+      car_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -515,6 +588,12 @@ public final class PersonProtos {
       }
       if (hasHair()) {
         if (!getHair().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getCarCount(); i++) {
+        if (!getCar(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -549,6 +628,9 @@ public final class PersonProtos {
       }
       for (int i = 0; i < someNumber_.size(); i++) {
         output.writeInt32(8, someNumber_.get(i));
+      }
+      for (int i = 0; i < car_.size(); i++) {
+        output.writeMessage(9, car_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -600,6 +682,10 @@ public final class PersonProtos {
         }
         size += dataSize;
         size += 1 * getSomeNumberList().size();
+      }
+      for (int i = 0; i < car_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, car_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -710,6 +796,7 @@ public final class PersonProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getHairFieldBuilder();
+          getCarFieldBuilder();
         }
       }
       private static Builder create() {
@@ -738,6 +825,12 @@ public final class PersonProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         someNumber_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000080);
+        if (carBuilder_ == null) {
+          car_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+        } else {
+          carBuilder_.clear();
+        }
         return this;
       }
 
@@ -805,6 +898,15 @@ public final class PersonProtos {
           bitField0_ = (bitField0_ & ~0x00000080);
         }
         result.someNumber_ = someNumber_;
+        if (carBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
+            car_ = java.util.Collections.unmodifiableList(car_);
+            bitField0_ = (bitField0_ & ~0x00000100);
+          }
+          result.car_ = car_;
+        } else {
+          result.car_ = carBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -863,6 +965,32 @@ public final class PersonProtos {
           }
           onChanged();
         }
+        if (carBuilder_ == null) {
+          if (!other.car_.isEmpty()) {
+            if (car_.isEmpty()) {
+              car_ = other.car_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+            } else {
+              ensureCarIsMutable();
+              car_.addAll(other.car_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.car_.isEmpty()) {
+            if (carBuilder_.isEmpty()) {
+              carBuilder_.dispose();
+              carBuilder_ = null;
+              car_ = other.car_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+              carBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getCarFieldBuilder() : null;
+            } else {
+              carBuilder_.addAllMessages(other.car_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -878,6 +1006,12 @@ public final class PersonProtos {
         }
         if (hasHair()) {
           if (!getHair().isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getCarCount(); i++) {
+          if (!getCar(i).isInitialized()) {
             
             return false;
           }
@@ -1428,6 +1562,246 @@ public final class PersonProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         onChanged();
         return this;
+      }
+
+      // repeated .Car car = 9;
+      private java.util.List<PersonProtos.Car> car_ =
+        java.util.Collections.emptyList();
+      private void ensureCarIsMutable() {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+          car_ = new java.util.ArrayList<PersonProtos.Car>(car_);
+          bitField0_ |= 0x00000100;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          PersonProtos.Car, PersonProtos.Car.Builder, PersonProtos.CarOrBuilder> carBuilder_;
+
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public java.util.List<PersonProtos.Car> getCarList() {
+        if (carBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(car_);
+        } else {
+          return carBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public int getCarCount() {
+        if (carBuilder_ == null) {
+          return car_.size();
+        } else {
+          return carBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public PersonProtos.Car getCar(int index) {
+        if (carBuilder_ == null) {
+          return car_.get(index);
+        } else {
+          return carBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder setCar(
+          int index, PersonProtos.Car value) {
+        if (carBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCarIsMutable();
+          car_.set(index, value);
+          onChanged();
+        } else {
+          carBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder setCar(
+          int index, PersonProtos.Car.Builder builderForValue) {
+        if (carBuilder_ == null) {
+          ensureCarIsMutable();
+          car_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          carBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder addCar(PersonProtos.Car value) {
+        if (carBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCarIsMutable();
+          car_.add(value);
+          onChanged();
+        } else {
+          carBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder addCar(
+          int index, PersonProtos.Car value) {
+        if (carBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCarIsMutable();
+          car_.add(index, value);
+          onChanged();
+        } else {
+          carBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder addCar(
+          PersonProtos.Car.Builder builderForValue) {
+        if (carBuilder_ == null) {
+          ensureCarIsMutable();
+          car_.add(builderForValue.build());
+          onChanged();
+        } else {
+          carBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder addCar(
+          int index, PersonProtos.Car.Builder builderForValue) {
+        if (carBuilder_ == null) {
+          ensureCarIsMutable();
+          car_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          carBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder addAllCar(
+          java.lang.Iterable<? extends PersonProtos.Car> values) {
+        if (carBuilder_ == null) {
+          ensureCarIsMutable();
+          super.addAll(values, car_);
+          onChanged();
+        } else {
+          carBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder clearCar() {
+        if (carBuilder_ == null) {
+          car_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+          onChanged();
+        } else {
+          carBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public Builder removeCar(int index) {
+        if (carBuilder_ == null) {
+          ensureCarIsMutable();
+          car_.remove(index);
+          onChanged();
+        } else {
+          carBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public PersonProtos.Car.Builder getCarBuilder(
+          int index) {
+        return getCarFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public PersonProtos.CarOrBuilder getCarOrBuilder(
+          int index) {
+        if (carBuilder_ == null) {
+          return car_.get(index);  } else {
+          return carBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public java.util.List<? extends PersonProtos.CarOrBuilder> 
+           getCarOrBuilderList() {
+        if (carBuilder_ != null) {
+          return carBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(car_);
+        }
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public PersonProtos.Car.Builder addCarBuilder() {
+        return getCarFieldBuilder().addBuilder(
+            PersonProtos.Car.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public PersonProtos.Car.Builder addCarBuilder(
+          int index) {
+        return getCarFieldBuilder().addBuilder(
+            index, PersonProtos.Car.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Car car = 9;</code>
+       */
+      public java.util.List<PersonProtos.Car.Builder> 
+           getCarBuilderList() {
+        return getCarFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          PersonProtos.Car, PersonProtos.Car.Builder, PersonProtos.CarOrBuilder> 
+          getCarFieldBuilder() {
+        if (carBuilder_ == null) {
+          carBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              PersonProtos.Car, PersonProtos.Car.Builder, PersonProtos.CarOrBuilder>(
+                  car_,
+                  ((bitField0_ & 0x00000100) == 0x00000100),
+                  getParentForChildren(),
+                  isClean());
+          car_ = null;
+        }
+        return carBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Person)
@@ -2009,6 +2383,649 @@ public final class PersonProtos {
     // @@protoc_insertion_point(class_scope:Hair)
   }
 
+  public interface CarOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string color = 1;
+    /**
+     * <code>required string color = 1;</code>
+     */
+    boolean hasColor();
+    /**
+     * <code>required string color = 1;</code>
+     */
+    java.lang.String getColor();
+    /**
+     * <code>required string color = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getColorBytes();
+
+    // required string manufacturer = 2;
+    /**
+     * <code>required string manufacturer = 2;</code>
+     */
+    boolean hasManufacturer();
+    /**
+     * <code>required string manufacturer = 2;</code>
+     */
+    java.lang.String getManufacturer();
+    /**
+     * <code>required string manufacturer = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getManufacturerBytes();
+  }
+  /**
+   * Protobuf type {@code Car}
+   */
+  public static final class Car extends
+      com.google.protobuf.GeneratedMessage
+      implements CarOrBuilder {
+    // Use Car.newBuilder() to construct.
+    private Car(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Car(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Car defaultInstance;
+    public static Car getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Car getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Car(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              color_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              manufacturer_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PersonProtos.internal_static_Car_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PersonProtos.internal_static_Car_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              PersonProtos.Car.class, PersonProtos.Car.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Car> PARSER =
+        new com.google.protobuf.AbstractParser<Car>() {
+      public Car parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Car(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Car> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string color = 1;
+    public static final int COLOR_FIELD_NUMBER = 1;
+    private java.lang.Object color_;
+    /**
+     * <code>required string color = 1;</code>
+     */
+    public boolean hasColor() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string color = 1;</code>
+     */
+    public java.lang.String getColor() {
+      java.lang.Object ref = color_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          color_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string color = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getColorBytes() {
+      java.lang.Object ref = color_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        color_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string manufacturer = 2;
+    public static final int MANUFACTURER_FIELD_NUMBER = 2;
+    private java.lang.Object manufacturer_;
+    /**
+     * <code>required string manufacturer = 2;</code>
+     */
+    public boolean hasManufacturer() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string manufacturer = 2;</code>
+     */
+    public java.lang.String getManufacturer() {
+      java.lang.Object ref = manufacturer_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          manufacturer_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string manufacturer = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getManufacturerBytes() {
+      java.lang.Object ref = manufacturer_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        manufacturer_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      color_ = "";
+      manufacturer_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasColor()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasManufacturer()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getColorBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getManufacturerBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getColorBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getManufacturerBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static PersonProtos.Car parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static PersonProtos.Car parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static PersonProtos.Car parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static PersonProtos.Car parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static PersonProtos.Car parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static PersonProtos.Car parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static PersonProtos.Car parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static PersonProtos.Car parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static PersonProtos.Car parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static PersonProtos.Car parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(PersonProtos.Car prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Car}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements PersonProtos.CarOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PersonProtos.internal_static_Car_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PersonProtos.internal_static_Car_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                PersonProtos.Car.class, PersonProtos.Car.Builder.class);
+      }
+
+      // Construct using PersonProtos.Car.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        color_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        manufacturer_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PersonProtos.internal_static_Car_descriptor;
+      }
+
+      public PersonProtos.Car getDefaultInstanceForType() {
+        return PersonProtos.Car.getDefaultInstance();
+      }
+
+      public PersonProtos.Car build() {
+        PersonProtos.Car result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public PersonProtos.Car buildPartial() {
+        PersonProtos.Car result = new PersonProtos.Car(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.color_ = color_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.manufacturer_ = manufacturer_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof PersonProtos.Car) {
+          return mergeFrom((PersonProtos.Car)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(PersonProtos.Car other) {
+        if (other == PersonProtos.Car.getDefaultInstance()) return this;
+        if (other.hasColor()) {
+          bitField0_ |= 0x00000001;
+          color_ = other.color_;
+          onChanged();
+        }
+        if (other.hasManufacturer()) {
+          bitField0_ |= 0x00000002;
+          manufacturer_ = other.manufacturer_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasColor()) {
+          
+          return false;
+        }
+        if (!hasManufacturer()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        PersonProtos.Car parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (PersonProtos.Car) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string color = 1;
+      private java.lang.Object color_ = "";
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public boolean hasColor() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public java.lang.String getColor() {
+        java.lang.Object ref = color_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          color_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getColorBytes() {
+        java.lang.Object ref = color_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          color_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public Builder setColor(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        color_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public Builder clearColor() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        color_ = getDefaultInstance().getColor();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string color = 1;</code>
+       */
+      public Builder setColorBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        color_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string manufacturer = 2;
+      private java.lang.Object manufacturer_ = "";
+      /**
+       * <code>required string manufacturer = 2;</code>
+       */
+      public boolean hasManufacturer() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string manufacturer = 2;</code>
+       */
+      public java.lang.String getManufacturer() {
+        java.lang.Object ref = manufacturer_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          manufacturer_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string manufacturer = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getManufacturerBytes() {
+        java.lang.Object ref = manufacturer_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          manufacturer_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string manufacturer = 2;</code>
+       */
+      public Builder setManufacturer(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        manufacturer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string manufacturer = 2;</code>
+       */
+      public Builder clearManufacturer() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        manufacturer_ = getDefaultInstance().getManufacturer();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string manufacturer = 2;</code>
+       */
+      public Builder setManufacturerBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        manufacturer_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Car)
+    }
+
+    static {
+      defaultInstance = new Car(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:Car)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_Person_descriptor;
   private static
@@ -2019,6 +3036,11 @@ public final class PersonProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Hair_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Car_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Car_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2028,12 +3050,13 @@ public final class PersonProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014person.proto\"\216\001\n\006Person\022\n\n\002id\030\001 \002(\005\022\014\n" +
+      "\n\014person.proto\"\241\001\n\006Person\022\n\n\002id\030\001 \002(\005\022\014\n" +
       "\004name\030\002 \002(\t\022\r\n\005email\030\003 \001(\t\022\r\n\005money\030\004 \001(" +
       "\005\022\023\n\004hair\030\005 \001(\0132\005.Hair\022\021\n\tsomeBytes\030\006 \001(" +
-      "\014\022\020\n\010language\030\007 \003(\t\022\022\n\nsomeNumber\030\010 \003(\005\"" +
-      "%\n\004Hair\022\r\n\005color\030\001 \002(\t\022\016\n\006length\030\002 \002(\005B\016" +
-      "B\014PersonProtos"
+      "\014\022\020\n\010language\030\007 \003(\t\022\022\n\nsomeNumber\030\010 \003(\005\022" +
+      "\021\n\003car\030\t \003(\0132\004.Car\"%\n\004Hair\022\r\n\005color\030\001 \002(" +
+      "\t\022\016\n\006length\030\002 \002(\005\"*\n\003Car\022\r\n\005color\030\001 \002(\t\022" +
+      "\024\n\014manufacturer\030\002 \002(\tB\016B\014PersonProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2045,13 +3068,19 @@ public final class PersonProtos {
           internal_static_Person_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Person_descriptor,
-              new java.lang.String[] { "Id", "Name", "Email", "Money", "Hair", "SomeBytes", "Language", "SomeNumber", });
+              new java.lang.String[] { "Id", "Name", "Email", "Money", "Hair", "SomeBytes", "Language", "SomeNumber", "Car", });
           internal_static_Hair_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_Hair_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Hair_descriptor,
               new java.lang.String[] { "Color", "Length", });
+          internal_static_Car_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_Car_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Car_descriptor,
+              new java.lang.String[] { "Color", "Manufacturer", });
           return null;
         }
       };
