@@ -42,9 +42,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferList.class)) {
             String fieldName = field.getAnnotation(ProtoBufferList.class).fieldName();
             ReflectiveObject invoked = o.smartGet(field.getName());
-            if (isStringList(field)) {
-                builder.call("addAll"+capitalize(fieldName), invoked.getObject());
-            }
+            builder.call("addAll"+capitalize(fieldName), invoked.getObject());
         }
 
         return builder.getObject();
@@ -82,9 +80,7 @@ public class ReflectiveEncoder implements IMessageEncoder {
         }
 
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferList.class)) {
-            if (isStringList(field)) {
-                o.smartSet(field.getName(), buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName())+"List"));
-            }
+            o.smartSet(field.getName(), buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName())+"List"));
         }
         return o;
     }

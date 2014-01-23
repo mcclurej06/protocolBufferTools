@@ -28,6 +28,7 @@ public class Encoder implements IMessageEncoder {
         personBuilder.setHair(hairBuilder);
 
         personBuilder.addAllLanguage(person.getLanguages());
+        personBuilder.addAllSomeNumber(person.getSomeNumbers());
 
         return new MessageWrapper().wrap(o.getClass().getCanonicalName(), personBuilder.build().toByteArray());
     }
@@ -48,7 +49,8 @@ public class Encoder implements IMessageEncoder {
 
         person.setHair(hair);
 
-        person.setLanguages(new ArrayList<>(parsedPerson.getLanguageList()));
+        person.setLanguages(parsedPerson.getLanguageList());
+        person.setSomeNumbers(parsedPerson.getSomeNumberList());
 
         return person;
     }
