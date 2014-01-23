@@ -1,5 +1,6 @@
 package org.yogurt.protobufftools;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
@@ -26,7 +27,7 @@ class ReflectiveObject {
 
     public ReflectiveObject smartGet(String fieldName) throws Exception {
         try {
-            return new ReflectiveObject(MethodUtils.invokeMethod(o, "get" + capitalize(fieldName)));
+            return new ReflectiveObject(MethodUtils.invokeMethod(o, "get" + StringUtils.capitalize(fieldName)));
         } catch (NoSuchMethodException e) {
             return new ReflectiveObject(FieldUtils.readDeclaredField(o, fieldName, true));
         }
@@ -38,7 +39,7 @@ class ReflectiveObject {
 
     public void smartSet(String fieldName, Object value) throws Exception {
         try {
-            MethodUtils.invokeMethod(o, "set" + capitalize(fieldName), value);
+            MethodUtils.invokeMethod(o, "set" + StringUtils.capitalize(fieldName), value);
         } catch (NoSuchMethodException e) {
             FieldUtils.writeDeclaredField(o, fieldName, value, true);
         }
@@ -54,10 +55,6 @@ class ReflectiveObject {
             }
         }
         return fields;
-    }
-
-    private String capitalize(String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 
     public void call(String methodName, Object... objects) throws Exception {

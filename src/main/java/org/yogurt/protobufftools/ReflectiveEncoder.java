@@ -1,6 +1,7 @@
 package org.yogurt.protobufftools;
 
 import com.google.protobuf.ByteString;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Field;
@@ -46,31 +47,14 @@ public class ReflectiveEncoder implements IMessageEncoder {
             ReflectiveObject invoked = o.smartGet(field.getName());
             if (classShouldBeRecursed((Class<?>)getListType(field))) {
                 for (Object o2 : (List) invoked.getObject()){
-                    builder.call("add"+capitalize(fieldName), populateBuilder(new ReflectiveObject(o2)));
+                    builder.call("add"+ StringUtils.capitalize(fieldName), populateBuilder(new ReflectiveObject(o2)));
                 }
             } else {
-                builder.call("addAll"+capitalize(fieldName), invoked.getObject());
+                builder.call("addAll"+ StringUtils.capitalize(fieldName), invoked.getObject());
             }
         }
 
         return builder.getObject();
-    }
-    private String capitalize(String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
-    }
-    private boolean isStringList(Field field) {
-        Type genericType = field.getGenericType();
-        if(ParameterizedType.class.isAssignableFrom(genericType.getClass())){
-            Type[] actualTypeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
-            for (Type type : actualTypeArguments) {
-                if (!String.class.equals(type)){
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-        return true;
     }
 
     private Object extractFromBuffer(ReflectiveObject o, ReflectiveObject buffer) throws Exception {
@@ -88,16 +72,15 @@ public class ReflectiveEncoder implements IMessageEncoder {
         }
 
         for (Field field : o.getFieldsAnnotatedWith(ProtoBufferList.class)) {
-
             if (classShouldBeRecursed((Class<?>)getListType(field))) {
-                List objects = (List) buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName()) + "List").getObject();
-                List newObjects = new ArrayList();
+                List objects = (List) buffer.smartGet(StringUtils.capitalize(field.getAnnotation(ProtoBufferList.class).fieldName()) + "List").getObject();
+                List<Object> newObjects = new ArrayList<>();
                 for (Object o1 : objects){
                     newObjects.add(extractFromBuffer(new ReflectiveObject(Class.forName(((Class<?>) getListType(field)).getCanonicalName()).newInstance()), new ReflectiveObject(o1)));
                 }
                 o.smartSet(field.getName(), newObjects);
             } else {
-                o.smartSet(field.getName(), buffer.smartGet(capitalize(field.getAnnotation(ProtoBufferList.class).fieldName())+"List"));
+                o.smartSet(field.getName(), buffer.smartGet(StringUtils.capitalize(field.getAnnotation(ProtoBufferList.class).fieldName()) +"List"));
             }
 
         }
