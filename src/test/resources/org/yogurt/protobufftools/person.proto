@@ -7,9 +7,17 @@ message Person {
     optional int32 money = 4;
     optional Hair hair = 5;
     optional bytes someBytes = 6;
+    repeated string language = 7;
+    repeated int32 someNumber = 8;
+    repeated Car car = 9;
 }
 
 message Hair {
     required string color = 1;
     required int32 length = 2;
+}
+
+message Car {
+    required string color = 1;
+    required string manufacturer = 2;
 }

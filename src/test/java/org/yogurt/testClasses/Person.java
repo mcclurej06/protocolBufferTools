@@ -2,11 +2,14 @@ package org.yogurt.testClasses;
 
 import org.yogurt.protobufftools.ProtoBufferData;
 import org.yogurt.protobufftools.ProtoBufferField;
+import org.yogurt.protobufftools.ProtoBufferList;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 @ProtoBufferData(protoBuffer = PersonProtos.Person.class)
-public class Person {
+public class Person implements Serializable{
     @ProtoBufferField(fieldName = "id")
     private int id;
     @ProtoBufferField(fieldName = "name")
@@ -19,6 +22,12 @@ public class Person {
     private Hair hair;
     @ProtoBufferField(fieldName = "someBytes")
     private byte[] someByteArray;
+    @ProtoBufferList(fieldName = "language")
+    private List<String> languages;
+    @ProtoBufferList(fieldName = "someNumber")
+    private List<Integer> someNumbers;
+    @ProtoBufferList(fieldName = "car")
+    private List<Car> cars;
 
     String dontSendMe;
 
@@ -78,6 +87,30 @@ public class Person {
         this.someByteArray = someByteArray;
     }
 
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+
+    public List<Integer> getSomeNumbers() {
+        return someNumbers;
+    }
+
+    public void setSomeNumbers(List<Integer> someNumbers) {
+        this.someNumbers = someNumbers;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -87,6 +120,9 @@ public class Person {
                 ", money=" + money +
                 ", hair=" + hair +
                 ", someByteArray=" + Arrays.toString(someByteArray) +
+                ", languages=" + languages +
+                ", someNumbers=" + someNumbers +
+                ", cars=" + cars +
                 ", dontSendMe='" + dontSendMe + '\'' +
                 '}';
     }
@@ -100,9 +136,12 @@ public class Person {
 
         if (id != person.id) return false;
         if (money != person.money) return false;
+        if (cars != null ? !cars.equals(person.cars) : person.cars != null) return false;
         if (hair != null ? !hair.equals(person.hair) : person.hair != null) return false;
+        if (languages != null ? !languages.equals(person.languages) : person.languages != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (!Arrays.equals(someByteArray, person.someByteArray)) return false;
+        if (someNumbers != null ? !someNumbers.equals(person.someNumbers) : person.someNumbers != null) return false;
         if (theEmail != null ? !theEmail.equals(person.theEmail) : person.theEmail != null) return false;
 
         return true;
@@ -116,8 +155,9 @@ public class Person {
         result = 31 * result + money;
         result = 31 * result + (hair != null ? hair.hashCode() : 0);
         result = 31 * result + (someByteArray != null ? Arrays.hashCode(someByteArray) : 0);
+        result = 31 * result + (languages != null ? languages.hashCode() : 0);
+        result = 31 * result + (someNumbers != null ? someNumbers.hashCode() : 0);
+        result = 31 * result + (cars != null ? cars.hashCode() : 0);
         return result;
     }
-
-
 }

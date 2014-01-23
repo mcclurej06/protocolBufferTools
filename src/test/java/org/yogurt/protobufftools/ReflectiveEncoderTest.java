@@ -3,6 +3,7 @@ package org.yogurt.protobufftools;
 import org.junit.Test;
 import org.yogurt.testClasses.Hair;
 import org.yogurt.testClasses.Person;
+import org.yogurt.testClasses.PersonHelper;
 
 import java.util.Random;
 
@@ -13,27 +14,12 @@ public class ReflectiveEncoderTest {
 
     @Test
     public void testEncodeAndDecode() throws Exception {
-        Person person = new Person();
-
-        person.setId(new Random().nextInt());
-        person.setTheEmail("fake@theEmail.com");
-        person.setName("James");
-        person.setDontSendMe("dont send me!");
-
-        byte[] someBytes = "someBytes".getBytes();
-        person.setSomeByteArray(someBytes);
-
-        person.addMoney(500);
-
-        Hair hair = new Hair();
-        hair.setColor("blonde");
-        hair.setLength(5);
-        person.setHair(hair);
+        Person person = new PersonHelper().createPerson();
 
         ReflectiveEncoder encoder = new ReflectiveEncoder();
 
         byte[] bytes = encoder.encode(person);
-        System.out.println("encoded byte[] size: "+bytes.length);
+        System.out.println("reflective encoded byte[] size: "+bytes.length);
         Object actual = encoder.decode(bytes);
 
         assertEquals(person, actual);

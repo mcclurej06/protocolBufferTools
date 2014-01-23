@@ -3,8 +3,10 @@ package org.yogurt.testClasses;
 import org.yogurt.protobufftools.ProtoBufferData;
 import org.yogurt.protobufftools.ProtoBufferField;
 
+import java.io.Serializable;
+
 @ProtoBufferData(protoBuffer = PersonProtos.Hair.class)
-public class Hair {
+public class Hair implements Serializable{
     @ProtoBufferField(fieldName = "length")
     int length;
     @ProtoBufferField(fieldName = "color")
