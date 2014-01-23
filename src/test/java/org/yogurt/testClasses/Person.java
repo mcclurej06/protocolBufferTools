@@ -24,6 +24,8 @@ public class Person implements Serializable{
     private byte[] someByteArray;
     @ProtoBufferList(fieldName = "language")
     private List<String> languages;
+    @ProtoBufferList(fieldName = "someNumber")
+    private List<Integer> someNumbers;
 
     String dontSendMe;
 
@@ -91,6 +93,14 @@ public class Person implements Serializable{
         this.languages = languages;
     }
 
+    public List<Integer> getSomeNumbers() {
+        return someNumbers;
+    }
+
+    public void setSomeNumbers(List<Integer> someNumbers) {
+        this.someNumbers = someNumbers;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -101,6 +111,7 @@ public class Person implements Serializable{
                 ", hair=" + hair +
                 ", someByteArray=" + Arrays.toString(someByteArray) +
                 ", languages=" + languages +
+                ", someNumbers=" + someNumbers +
                 ", dontSendMe='" + dontSendMe + '\'' +
                 '}';
     }
@@ -118,6 +129,7 @@ public class Person implements Serializable{
         if (languages != null ? !languages.equals(person.languages) : person.languages != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (!Arrays.equals(someByteArray, person.someByteArray)) return false;
+        if (someNumbers != null ? !someNumbers.equals(person.someNumbers) : person.someNumbers != null) return false;
         if (theEmail != null ? !theEmail.equals(person.theEmail) : person.theEmail != null) return false;
 
         return true;
@@ -132,6 +144,7 @@ public class Person implements Serializable{
         result = 31 * result + (hair != null ? hair.hashCode() : 0);
         result = 31 * result + (someByteArray != null ? Arrays.hashCode(someByteArray) : 0);
         result = 31 * result + (languages != null ? languages.hashCode() : 0);
+        result = 31 * result + (someNumbers != null ? someNumbers.hashCode() : 0);
         return result;
     }
 }

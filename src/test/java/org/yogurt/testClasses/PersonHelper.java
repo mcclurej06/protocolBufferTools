@@ -24,6 +24,8 @@ public class PersonHelper {
         person.setHair(hair);
 
         person.setLanguages(Arrays.asList("english", "Spanish"));
+        person.setSomeNumbers(Arrays.asList(1, 2));
+
 
         return person;
     }

@@ -102,6 +102,20 @@ public final class PersonProtos {
      */
     com.google.protobuf.ByteString
         getLanguageBytes(int index);
+
+    // repeated int32 someNumber = 8;
+    /**
+     * <code>repeated int32 someNumber = 8;</code>
+     */
+    java.util.List<java.lang.Integer> getSomeNumberList();
+    /**
+     * <code>repeated int32 someNumber = 8;</code>
+     */
+    int getSomeNumberCount();
+    /**
+     * <code>repeated int32 someNumber = 8;</code>
+     */
+    int getSomeNumber(int index);
   }
   /**
    * Protobuf type {@code Person}
@@ -200,6 +214,27 @@ public final class PersonProtos {
               language_.add(input.readBytes());
               break;
             }
+            case 64: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                someNumber_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              someNumber_.add(input.readInt32());
+              break;
+            }
+            case 66: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080) && input.getBytesUntilLimit() > 0) {
+                someNumber_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                someNumber_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -210,6 +245,9 @@ public final class PersonProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           language_ = new com.google.protobuf.UnmodifiableLazyStringList(language_);
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          someNumber_ = java.util.Collections.unmodifiableList(someNumber_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -429,6 +467,29 @@ public final class PersonProtos {
       return language_.getByteString(index);
     }
 
+    // repeated int32 someNumber = 8;
+    public static final int SOMENUMBER_FIELD_NUMBER = 8;
+    private java.util.List<java.lang.Integer> someNumber_;
+    /**
+     * <code>repeated int32 someNumber = 8;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getSomeNumberList() {
+      return someNumber_;
+    }
+    /**
+     * <code>repeated int32 someNumber = 8;</code>
+     */
+    public int getSomeNumberCount() {
+      return someNumber_.size();
+    }
+    /**
+     * <code>repeated int32 someNumber = 8;</code>
+     */
+    public int getSomeNumber(int index) {
+      return someNumber_.get(index);
+    }
+
     private void initFields() {
       id_ = 0;
       name_ = "";
@@ -437,6 +498,7 @@ public final class PersonProtos {
       hair_ = PersonProtos.Hair.getDefaultInstance();
       someBytes_ = com.google.protobuf.ByteString.EMPTY;
       language_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      someNumber_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -485,6 +547,9 @@ public final class PersonProtos {
       for (int i = 0; i < language_.size(); i++) {
         output.writeBytes(7, language_.getByteString(i));
       }
+      for (int i = 0; i < someNumber_.size(); i++) {
+        output.writeInt32(8, someNumber_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -526,6 +591,15 @@ public final class PersonProtos {
         }
         size += dataSize;
         size += 1 * getLanguageList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < someNumber_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(someNumber_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getSomeNumberList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -662,6 +736,8 @@ public final class PersonProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         language_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000040);
+        someNumber_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -724,6 +800,11 @@ public final class PersonProtos {
           bitField0_ = (bitField0_ & ~0x00000040);
         }
         result.language_ = language_;
+        if (((bitField0_ & 0x00000080) == 0x00000080)) {
+          someNumber_ = java.util.Collections.unmodifiableList(someNumber_);
+          bitField0_ = (bitField0_ & ~0x00000080);
+        }
+        result.someNumber_ = someNumber_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -769,6 +850,16 @@ public final class PersonProtos {
           } else {
             ensureLanguageIsMutable();
             language_.addAll(other.language_);
+          }
+          onChanged();
+        }
+        if (!other.someNumber_.isEmpty()) {
+          if (someNumber_.isEmpty()) {
+            someNumber_ = other.someNumber_;
+            bitField0_ = (bitField0_ & ~0x00000080);
+          } else {
+            ensureSomeNumberIsMutable();
+            someNumber_.addAll(other.someNumber_);
           }
           onChanged();
         }
@@ -1131,7 +1222,7 @@ public final class PersonProtos {
        * <code>optional .Hair hair = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          PersonProtos.Hair, PersonProtos.Hair.Builder, PersonProtos.HairOrBuilder>
+          PersonProtos.Hair, PersonProtos.Hair.Builder, PersonProtos.HairOrBuilder> 
           getHairFieldBuilder() {
         if (hairBuilder_ == null) {
           hairBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -1269,6 +1360,72 @@ public final class PersonProtos {
   }
   ensureLanguageIsMutable();
         language_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 someNumber = 8;
+      private java.util.List<java.lang.Integer> someNumber_ = java.util.Collections.emptyList();
+      private void ensureSomeNumberIsMutable() {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+          someNumber_ = new java.util.ArrayList<java.lang.Integer>(someNumber_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+      /**
+       * <code>repeated int32 someNumber = 8;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getSomeNumberList() {
+        return java.util.Collections.unmodifiableList(someNumber_);
+      }
+      /**
+       * <code>repeated int32 someNumber = 8;</code>
+       */
+      public int getSomeNumberCount() {
+        return someNumber_.size();
+      }
+      /**
+       * <code>repeated int32 someNumber = 8;</code>
+       */
+      public int getSomeNumber(int index) {
+        return someNumber_.get(index);
+      }
+      /**
+       * <code>repeated int32 someNumber = 8;</code>
+       */
+      public Builder setSomeNumber(
+          int index, int value) {
+        ensureSomeNumberIsMutable();
+        someNumber_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 someNumber = 8;</code>
+       */
+      public Builder addSomeNumber(int value) {
+        ensureSomeNumberIsMutable();
+        someNumber_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 someNumber = 8;</code>
+       */
+      public Builder addAllSomeNumber(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureSomeNumberIsMutable();
+        super.addAll(values, someNumber_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 someNumber = 8;</code>
+       */
+      public Builder clearSomeNumber() {
+        someNumber_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000080);
         onChanged();
         return this;
       }
@@ -1871,11 +2028,12 @@ public final class PersonProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014person.proto\"z\n\006Person\022\n\n\002id\030\001 \002(\005\022\014\n\004" +
-      "name\030\002 \002(\t\022\r\n\005email\030\003 \001(\t\022\r\n\005money\030\004 \001(\005" +
-      "\022\023\n\004hair\030\005 \001(\0132\005.Hair\022\021\n\tsomeBytes\030\006 \001(\014" +
-      "\022\020\n\010language\030\007 \003(\t\"%\n\004Hair\022\r\n\005color\030\001 \002(" +
-      "\t\022\016\n\006length\030\002 \002(\005B\016B\014PersonProtos"
+      "\n\014person.proto\"\216\001\n\006Person\022\n\n\002id\030\001 \002(\005\022\014\n" +
+      "\004name\030\002 \002(\t\022\r\n\005email\030\003 \001(\t\022\r\n\005money\030\004 \001(" +
+      "\005\022\023\n\004hair\030\005 \001(\0132\005.Hair\022\021\n\tsomeBytes\030\006 \001(" +
+      "\014\022\020\n\010language\030\007 \003(\t\022\022\n\nsomeNumber\030\010 \003(\005\"" +
+      "%\n\004Hair\022\r\n\005color\030\001 \002(\t\022\016\n\006length\030\002 \002(\005B\016" +
+      "B\014PersonProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1887,7 +2045,7 @@ public final class PersonProtos {
           internal_static_Person_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Person_descriptor,
-              new java.lang.String[] { "Id", "Name", "Email", "Money", "Hair", "SomeBytes", "Language", });
+              new java.lang.String[] { "Id", "Name", "Email", "Money", "Hair", "SomeBytes", "Language", "SomeNumber", });
           internal_static_Hair_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_Hair_fieldAccessorTable = new

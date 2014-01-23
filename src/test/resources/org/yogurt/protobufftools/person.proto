@@ -8,6 +8,7 @@ message Person {
     optional Hair hair = 5;
     optional bytes someBytes = 6;
     repeated string language = 7;
+    repeated int32 someNumber = 8;
 }
 
 message Hair {
