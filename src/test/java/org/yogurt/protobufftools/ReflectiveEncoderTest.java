@@ -33,6 +33,7 @@ public class ReflectiveEncoderTest {
         ReflectiveEncoder encoder = new ReflectiveEncoder();
 
         byte[] bytes = encoder.encode(person);
+        System.out.println("encoded byte[] size: "+bytes.length);
         Object actual = encoder.decode(bytes);
 
         assertEquals(person, actual);
