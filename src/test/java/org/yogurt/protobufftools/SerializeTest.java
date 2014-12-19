@@ -10,9 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by james on 1/23/14.
- */
 public class SerializeTest {
     @Test
     public void testEncodeAndDecode() throws Exception {

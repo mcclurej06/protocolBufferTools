@@ -17,12 +17,18 @@ public class EncoderTest {
 
         Encoder encoder = new Encoder();
 
+        byte[] bytes = null;
         long encodeStart = System.nanoTime();
-        byte[] bytes = encoder.encode(person);
+        for (int i =0;i<10000;i++) {
+            bytes = encoder.encode(person);
+        }
         long encodeEnd = System.nanoTime();
         System.out.println("standard encoded byte[] size: "+bytes.length);
+        Object actual = null;
         long decodeStart = System.nanoTime();
-        Object actual = encoder.decode(bytes);
+        for (int i =0;i<10000;i++) {
+            actual = encoder.decode(bytes);
+        }
         long decodeEnd = System.nanoTime();
         long elapsedEncode = encodeEnd - encodeStart;
         long elapsedDecode = decodeEnd - decodeStart;
