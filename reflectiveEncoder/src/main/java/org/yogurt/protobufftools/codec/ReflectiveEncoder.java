@@ -7,7 +7,6 @@ import org.yogurt.protobufftools.ProtoBufferField;
 import org.yogurt.protobufftools.ProtoBufferList;
 import org.yogurt.reflection.IReflectiveObject;
 import org.yogurt.reflection.IReflectiveObjectFactory;
-import org.yogurt.reflection.ReflectiveObject;
 import org.yogurt.reflection.ReflectiveObjectFactoryProvider;
 
 import java.lang.reflect.Field;

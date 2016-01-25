@@ -5,9 +5,6 @@ import org.yogurt.protobufftools.ProtoBufferField;
 
 import java.io.Serializable;
 
-/**
- * Created by james on 1/23/14.
- */
 @ProtoBufferData(protoBuffer = PersonProtos.Car.class)
 public class Car implements Serializable{
     @ProtoBufferField(fieldName = "color")

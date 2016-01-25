@@ -3,9 +3,6 @@ package org.yogurt.testClasses;
 import java.util.Arrays;
 import java.util.Random;
 
-/**
- * Created by james on 1/23/14.
- */
 public class PersonHelper {
 
     public Person createPerson(){

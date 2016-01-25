@@ -3,7 +3,6 @@ package org.yogurt.protobufftools.codec;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.yogurt.protobufftools.ProtoBufferData;
 import org.yogurt.reflection.IReflectiveObject;
-import org.yogurt.reflection.ReflectiveObject;
 import org.yogurt.reflection.ReflectiveObjectFactoryProvider;
 
 import java.lang.reflect.Field;
@@ -31,7 +30,7 @@ public class ReflectiveCodecHelper {
         return type.getAnnotation(ProtoBufferData.class) != null;
     }
 
-    public static Class<?> getProtoBufferClass(IReflectiveObject o) {
+    private static Class<?> getProtoBufferClass(IReflectiveObject o) {
         return o.getObject().getClass().getAnnotation(ProtoBufferData.class).protoBuffer();
     }
 }

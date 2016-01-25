@@ -1,6 +1,5 @@
 package org.yogurt.reflection;
 
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -10,7 +9,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ReflectiveObject implements IReflectiveObject {
     Object o;
@@ -39,7 +39,6 @@ public class ReflectiveObject implements IReflectiveObject {
         } catch (NoSuchMethodException e) {
             return new ReflectiveObject(FieldUtils.readDeclaredField(o, fieldName, true));
         }
-
     }
 
     @Override

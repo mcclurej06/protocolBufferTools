@@ -2,7 +2,6 @@ package org.yogurt.protobufftools.codec;
 
 import org.yogurt.protobufftools.IMessageEncoder;
 import org.yogurt.reflection.GroovyReflectiveObjectFactory;
-import org.yogurt.reflection.ReflectiveObjectFactory;
 import org.yogurt.reflection.ReflectiveObjectFactoryProvider;
 
 public class ReflectiveCodec implements IMessageEncoder {
