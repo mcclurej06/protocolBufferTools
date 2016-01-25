@@ -2,8 +2,10 @@ package org.yogurt.reflection
 
 import java.lang.reflect.Field
 import java.lang.reflect.Type
+import java.util.concurrent.ConcurrentHashMap
 
 public class GroovyReflectiveObject implements IReflectiveObject {
+    private static Map<Pair<Class, Type>, Set<Field>> FIELDS = new ConcurrentHashMap()
     Object object
 
     GroovyReflectiveObject(Class<?> clazz) throws Exception {
@@ -29,11 +31,18 @@ public class GroovyReflectiveObject implements IReflectiveObject {
         object."$fieldName" = value
     }
 
+
     @Override
     public Set<Field> getFieldsAnnotatedWith(Type annotationType) {
-        object.getClass().declaredFields.findAll { field ->
-            annotationType in field.declaredAnnotations*.annotationType()
+        Pair key = new Pair(object.getClass(), annotationType)
+
+        if (!FIELDS.containsKey(key)) {
+            FIELDS.put(key, object.getClass().declaredFields.findAll { field ->
+                annotationType in field.declaredAnnotations*.annotationType()
+            })
         }
+
+        FIELDS.get(key)
     }
 
     @Override
