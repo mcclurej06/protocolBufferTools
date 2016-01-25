@@ -1,4 +1,4 @@
-package org.yogurt.protobufftools;
+package org.yogurt.reflection;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -10,22 +10,24 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ReflectiveObject {
+public class ReflectiveObject implements IReflectiveObject {
     Object o;
 
-    public ReflectiveObject(Class<?> clazz) throws Exception {
+    ReflectiveObject(Class<?> clazz) throws Exception {
         this.o = clazz.newInstance();
     }
 
-    public ReflectiveObject(Object o) {
+    ReflectiveObject(Object o) {
         this.o = o;
     }
 
+    @Override
     public Object getObject() {
         return o;
     }
 
-    public ReflectiveObject smartGet(String fieldName) throws Exception {
+    @Override
+    public IReflectiveObject smartGet(String fieldName) throws Exception {
         try {
             return new ReflectiveObject(MethodUtils.invokeMethod(o, "get" + StringUtils.capitalize(fieldName)));
         } catch (NoSuchMethodException e) {
@@ -33,12 +35,13 @@ public class ReflectiveObject {
         }
     }
 
-    public void smartSet(String fieldName, ReflectiveObject value) throws Exception {
+    @Override
+    public void smartSet(String fieldName, IReflectiveObject value) throws Exception {
         smartSet(fieldName, value.getObject());
     }
 
+    @Override
     public void smartSet(String fieldName, Object value) throws Exception {
-        System.err.println("trying to set " + value.getClass() + " type to field " + fieldName);
         try {
             MethodUtils.invokeMethod(o, "set" + StringUtils.capitalize(fieldName), value);
         } catch (NoSuchMethodException e) {
@@ -46,6 +49,7 @@ public class ReflectiveObject {
         }
     }
 
+    @Override
     public Set<Field> getFieldsAnnotatedWith(Type protoBufferFieldClass) {
         Set<Field> fields = new HashSet<>();
         for (Field field : o.getClass().getDeclaredFields()) {
@@ -58,6 +62,7 @@ public class ReflectiveObject {
         return fields;
     }
 
+    @Override
     public void call(String methodName, Object... objects) throws Exception {
         MethodUtils.invokeMethod(o, methodName, objects);
     }

@@ -1,21 +1,3 @@
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'java'
-
-test.scanForTestClasses = false
-
-repositories {
-    mavenCentral()
-}
-
-test {
-    exclude "org/yogurt/testClasses"
-}
-
-dependencies {
-    compile 'com.google.protobuf:protobuf-java:2.+'
-    compile 'org.apache.commons:commons-lang3:3.+'
-
-
-    testCompile 'junit:junit:4.+'
+subprojects {
+	apply plugin: 'java'
 }

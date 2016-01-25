@@ -1,0 +1,18 @@
+test.scanForTestClasses = false
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    exclude "org/yogurt/testClasses"
+}
+
+dependencies {
+    compile 'com.google.protobuf:protobuf-java:2.+'
+
+    compile project(':reflectiveObject-api')
+    compile project(':reflectiveObject-reflection')
+
+    testCompile 'junit:junit:4.+'
+}
