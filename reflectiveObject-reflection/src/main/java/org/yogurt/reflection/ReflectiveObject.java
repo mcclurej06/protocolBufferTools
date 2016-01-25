@@ -1,20 +1,26 @@
 package org.yogurt.reflection;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import sun.reflect.ReflectionFactory;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ReflectiveObject implements IReflectiveObject {
     Object o;
 
     ReflectiveObject(Class<?> clazz) throws Exception {
-        this.o = clazz.newInstance();
+        final ReflectionFactory reflection = ReflectionFactory.getReflectionFactory();
+        final Constructor<?> constructor =
+                reflection.newConstructorForSerialization(
+                        clazz, Object.class.getDeclaredConstructor());
+        this.o = constructor.newInstance();
     }
 
     ReflectiveObject(Object o) {
@@ -33,6 +39,7 @@ public class ReflectiveObject implements IReflectiveObject {
         } catch (NoSuchMethodException e) {
             return new ReflectiveObject(FieldUtils.readDeclaredField(o, fieldName, true));
         }
+
     }
 
     @Override
@@ -43,18 +50,18 @@ public class ReflectiveObject implements IReflectiveObject {
     @Override
     public void smartSet(String fieldName, Object value) throws Exception {
         try {
-            MethodUtils.invokeMethod(o, "set" + StringUtils.capitalize(fieldName), value);
+            call("set" + StringUtils.capitalize(fieldName), value);
         } catch (NoSuchMethodException e) {
             FieldUtils.writeDeclaredField(o, fieldName, value, true);
         }
     }
 
     @Override
-    public Set<Field> getFieldsAnnotatedWith(Type protoBufferFieldClass) {
+    public Set<Field> getFieldsAnnotatedWith(Type annotationType) {
         Set<Field> fields = new HashSet<>();
         for (Field field : o.getClass().getDeclaredFields()) {
             for (Annotation declaredAnnotation : field.getDeclaredAnnotations()) {
-                if (declaredAnnotation.annotationType().equals(protoBufferFieldClass)) {
+                if (declaredAnnotation.annotationType().equals(annotationType)) {
                     fields.add(field);
                 }
             }
