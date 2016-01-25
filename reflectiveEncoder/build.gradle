@@ -9,6 +9,7 @@ test {
 }
 
 dependencies {
+    compile 'org.apache.commons:commons-lang3:3.+'
     compile 'com.google.protobuf:protobuf-java:2.+'
 
     compile project(':reflectiveObject-api')
