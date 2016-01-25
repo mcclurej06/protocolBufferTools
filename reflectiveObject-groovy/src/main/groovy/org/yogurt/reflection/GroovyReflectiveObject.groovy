@@ -1,25 +1,22 @@
 package org.yogurt.reflection
 
-import com.sun.xml.internal.ws.util.StringUtils
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import java.lang.reflect.Field
 import java.lang.reflect.Type
 
 public class GroovyReflectiveObject implements IReflectiveObject {
-    Object object;
+    Object object
 
     GroovyReflectiveObject(Class<?> clazz) throws Exception {
-        this.object = clazz.newInstance();
+        this.object = clazz.newInstance()
     }
 
     GroovyReflectiveObject(Object object) {
-        this.object = object;
+        this.object = object
     }
 
     @Override
     public IReflectiveObject smartGet(String fieldName) throws Exception {
-        return new GroovyReflectiveObject(object."$fieldName");
+        new GroovyReflectiveObject(object."$fieldName")
     }
 
     @Override
@@ -34,16 +31,9 @@ public class GroovyReflectiveObject implements IReflectiveObject {
 
     @Override
     public Set<Field> getFieldsAnnotatedWith(Type annotationType) {
-        //TODO: this isnt groovy
-        Set<Field> fields = new HashSet<>();
-        for (Field field : object.getClass().getDeclaredFields()) {
-            for (Annotation declaredAnnotation : field.getDeclaredAnnotations()) {
-                if (declaredAnnotation.annotationType().equals(annotationType)) {
-                    fields.add(field);
-                }
-            }
+        object.getClass().declaredFields.findAll { field ->
+            annotationType in field.declaredAnnotations*.annotationType()
         }
-        return fields;
     }
 
     @Override

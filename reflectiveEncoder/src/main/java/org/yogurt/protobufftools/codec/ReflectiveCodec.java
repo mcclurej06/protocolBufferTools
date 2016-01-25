@@ -8,8 +8,8 @@ import org.yogurt.reflection.ReflectiveObjectFactoryProvider;
 public class ReflectiveCodec implements IMessageEncoder {
     static {
         //TODO: find a better way to do this...
-        ReflectiveObjectFactoryProvider.register(new ReflectiveObjectFactory());
-//        ReflectiveObjectFactoryProvider.register(new GroovyReflectiveObjectFactory());
+//        ReflectiveObjectFactoryProvider.register(new ReflectiveObjectFactory());
+        ReflectiveObjectFactoryProvider.register(new GroovyReflectiveObjectFactory());
     }
 
     public byte[] encode(Object o) throws Exception {
