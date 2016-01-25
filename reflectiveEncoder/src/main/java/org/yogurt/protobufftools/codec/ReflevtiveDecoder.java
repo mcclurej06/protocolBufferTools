@@ -37,14 +37,14 @@ public class ReflevtiveDecoder {
 
     private void handleList(IReflectiveObject o, IReflectiveObject buffer, Field field) throws Exception {
         if (ReflectiveCodecHelper.classShouldBeRecursed((Class<?>) ReflectiveCodecHelper.getListType(field))) {
-            List objects = (List) buffer.smartGet(StringUtils.capitalize(field.getAnnotation(ProtoBufferList.class).fieldName()) + "List").getObject();
+            List objects = (List) buffer.smartGet(field.getAnnotation(ProtoBufferList.class).fieldName() + "List").getObject();
             List<Object> newObjects = new ArrayList<>();
             for (Object o1 : objects) {
                 newObjects.add(extractFromBuffer(factory.create(Class.forName(((Class<?>) ReflectiveCodecHelper.getListType(field)).getCanonicalName()).newInstance()), factory.create(o1)));
             }
             o.smartSet(field.getName(), newObjects);
         } else {
-            o.smartSet(field.getName(), buffer.smartGet(StringUtils.capitalize(field.getAnnotation(ProtoBufferList.class).fieldName()) + "List"));
+            o.smartSet(field.getName(), buffer.smartGet(field.getAnnotation(ProtoBufferList.class).fieldName() + "List"));
         }
     }
 

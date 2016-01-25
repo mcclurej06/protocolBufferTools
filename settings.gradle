@@ -1,1 +1,1 @@
-include 'reflectiveEncoder', 'reflectiveObject-api', 'reflectiveObject-reflection'
+include 'reflectiveEncoder', 'reflectiveObject-api', 'reflectiveObject-reflection', 'reflectiveObject-groovy'
