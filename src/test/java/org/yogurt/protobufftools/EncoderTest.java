@@ -1,7 +1,7 @@
 package org.yogurt.protobufftools;
 
 import org.junit.Test;
-import org.yogurt.testClasses.Encoder;
+import org.yogurt.testClasses.codec.Encoder;
 import org.yogurt.testClasses.Person;
 import org.yogurt.testClasses.PersonHelper;
 

@@ -10,14 +10,14 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-class ReflectiveObject {
+public class ReflectiveObject {
     Object o;
 
-    ReflectiveObject(Class<?> clazz) throws Exception {
+    public ReflectiveObject(Class<?> clazz) throws Exception {
         this.o = clazz.newInstance();
     }
 
-    ReflectiveObject(Object o) {
+    public ReflectiveObject(Object o) {
         this.o = o;
     }
 
@@ -38,6 +38,7 @@ class ReflectiveObject {
     }
 
     public void smartSet(String fieldName, Object value) throws Exception {
+        System.err.println("trying to set " + value.getClass() + " type to field " + fieldName);
         try {
             MethodUtils.invokeMethod(o, "set" + StringUtils.capitalize(fieldName), value);
         } catch (NoSuchMethodException e) {

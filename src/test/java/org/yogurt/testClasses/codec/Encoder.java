@@ -1,9 +1,13 @@
-package org.yogurt.testClasses;
+package org.yogurt.testClasses.codec;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.yogurt.protobufftools.IMessageEncoder;
 import org.yogurt.protobufftools.MessageWrapper;
+import org.yogurt.testClasses.Car;
+import org.yogurt.testClasses.Hair;
+import org.yogurt.testClasses.Person;
+import org.yogurt.testClasses.PersonProtos;
 
 import java.util.ArrayList;
 import java.util.List;

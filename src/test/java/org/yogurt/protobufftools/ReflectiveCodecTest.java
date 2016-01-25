@@ -1,23 +1,36 @@
 package org.yogurt.protobufftools;
 
 import org.junit.Test;
-import org.yogurt.testClasses.Hair;
+import org.yogurt.protobufftools.codec.ReflectiveCodec;
 import org.yogurt.testClasses.Person;
 import org.yogurt.testClasses.PersonHelper;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class ReflectiveEncoderTest {
+public class ReflectiveCodecTest {
 
     @Test
     public void testEncodeAndDecode() throws Exception {
         Person person = new PersonHelper().createPerson();
 
-        ReflectiveEncoder encoder = new ReflectiveEncoder();
+        ReflectiveCodec encoder = new ReflectiveCodec();
+
+        byte[] encode = encoder.encode(person);
+        Person decode = (Person) encoder.decode(encode);
+
+        assertEquals(person, decode);
+
+        assertNull(decode.getDontSendMe());
+    }
+
+    @Test
+    public void testTimeEncodeAndDecode() throws Exception {
+        Person person = new PersonHelper().createPerson();
+
+        ReflectiveCodec encoder = new ReflectiveCodec();
         byte[] bytes = null;
         long encodeStart = System.nanoTime();
         for (int i = 0; i < 10000; i++) {
